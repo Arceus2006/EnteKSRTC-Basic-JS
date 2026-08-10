@@ -98,8 +98,22 @@
 }
 
 .ticket-form-panel {
-  padding: 48px;
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 82vh;
+  overflow-y: auto;
   flex: 1;
+}
+
+.ticket-form-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ticket-form-panel::-webkit-scrollbar-thumb {
+  background: #E4DECE;
+  border-radius: 3px;
 }
 
 .ticket-cta {
@@ -450,5 +464,9 @@ body.dark-theme .date-dropdowns select {
 
 body.dark-theme .date-dropdowns select:focus {
   border-color: #3dba84;
+}
+
+body.dark-theme .ticket-form-panel::-webkit-scrollbar-thumb {
+  background: #2a3d34;
 }
 
