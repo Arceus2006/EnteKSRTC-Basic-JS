@@ -190,3 +190,265 @@ body.dark-theme .ticket-divider::after {
   background: #0f1a14;
 }
 
+/* ---------- Auth Forms & Fields ---------- */
+.auth-header {
+  margin-bottom: 28px;
+}
+
+.auth-header .eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #F2A93B;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.auth-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #16202B;
+  margin-bottom: 6px;
+}
+
+.auth-header p {
+  color: #7C8798;
+  font-size: 0.92rem;
+}
+
+.auth-form .input-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #7C8798;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.auth-form .input-field-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #E4DECE;
+  padding: 8px 2px;
+  transition: border-color .2s ease;
+}
+
+.auth-form .input-field-wrapper:focus-within {
+  border-color: #F2A93B;
+}
+
+.auth-form .input-field-wrapper .input-icon {
+  color: #7C8798;
+  font-size: 20px;
+}
+
+.auth-form .input-field {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #16202B;
+  flex: 1;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0 20px;
+  font-size: 0.85rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7C8798;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: #16202B;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid #F2A93B;
+}
+
+.btn-search.ticket-cta {
+  width: 100%;
+  justify-content: center;
+  background: #16202B;
+  color: #FBF6EC;
+  border-radius: 10px;
+  padding: 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform .15s ease, background .2s ease;
+}
+
+.btn-search.ticket-cta:hover {
+  background: #F2A93B;
+  color: #16202B;
+  transform: translateY(-1px);
+}
+
+.btn-search.ticket-cta:focus-visible {
+  outline: 3px solid #F2A93B;
+  outline-offset: 2px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 22px 0;
+  color: #7C8798;
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E4DECE;
+  margin: 0 14px;
+}
+
+.form-message {
+  font-size: 0.85rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.form-message.error {
+  background: rgba(225, 75, 61, 0.1);
+  color: #E14B3D;
+}
+
+.form-message.success {
+  background: rgba(46, 160, 90, 0.1);
+  color: #2EA05A;
+}
+
+.form-message.hidden {
+  display: none;
+}
+
+.form-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #16202B;
+  margin: 22px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #E4DECE;
+}
+
+.select-field {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #16202B;
+  outline: none;
+  appearance: none;
+}
+
+.date-dropdowns {
+  display: flex;
+  gap: 8px;
+}
+
+.date-dropdowns select {
+  flex: 1;
+  padding: 9px;
+  border: 2px solid #E4DECE;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #16202B;
+  outline: none;
+  background: transparent;
+}
+
+.date-dropdowns select:focus {
+  border-color: #F2A93B;
+}
+
+/* ---------- Dark Mode Overrides for Auth Forms ---------- */
+body.dark-theme .auth-header h2 {
+  color: #e8f0ec;
+}
+
+body.dark-theme .auth-form .input-field-wrapper {
+  border-bottom-color: #2a3d34;
+}
+
+body.dark-theme .auth-form .input-field-wrapper:focus-within {
+  border-color: #3dba84;
+}
+
+body.dark-theme .auth-form .input-field {
+  color: #e8f0ec;
+}
+
+body.dark-theme .forgot-password {
+  color: #e8f0ec;
+  border-bottom-color: #3dba84;
+}
+
+body.dark-theme .btn-search.ticket-cta {
+  background: #1a2720;
+  border: 1px solid #2a3d34;
+  color: #e8f0ec;
+}
+
+body.dark-theme .btn-search.ticket-cta:hover {
+  background: #3dba84;
+  color: #003825;
+}
+
+body.dark-theme .auth-divider::before,
+body.dark-theme .auth-divider::after {
+  border-bottom-color: #2a3d34;
+}
+
+body.dark-theme .form-section-title {
+  color: #e8f0ec;
+  border-bottom-color: #2a3d34;
+}
+
+body.dark-theme .select-field {
+  color: #e8f0ec;
+}
+
+body.dark-theme .date-dropdowns select {
+  border-color: #2a3d34;
+  color: #e8f0ec;
+}
+
+body.dark-theme .date-dropdowns select:focus {
+  border-color: #3dba84;
+}
+
