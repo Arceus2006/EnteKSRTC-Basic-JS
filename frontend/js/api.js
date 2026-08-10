@@ -66,16 +66,16 @@ function generateId() {
 // ------------------------------------------------------------
 // AUTH ENDPOINTS
 // ------------------------------------------------------------
-async function register(name, email, password) {
+async function register(userData) {
   await delay(500);
   const users = getDB(USERS_KEY, []);
-  if (users.find(u => u.email === email)) {
+  if (users.find(u => u.email === userData.email)) {
     throw new Error("User with this email already exists.");
   }
-  const newUser = { id: generateId(), name, email, password };
+  const newUser = { id: generateId(), ...userData };
   users.push(newUser);
   setDB(USERS_KEY, users);
-  return { message: "User registered successfully", user: { id: newUser.id, name, email } };
+  return { message: "User registered successfully", user: { id: newUser.id, name: userData.name, email: userData.email } };
 }
 
 async function loginRequest(email, password) {

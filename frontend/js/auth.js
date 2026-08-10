@@ -163,11 +163,21 @@ function initRegisterForm() {
     event.preventDefault();
 
     const name = document.getElementById("regName").value.trim();
+    const age = document.getElementById("regAge").value;
     const email = document.getElementById("regEmail").value.trim();
     const password = document.getElementById("regPassword").value;
+    const gender = document.getElementById("regGender").value;
+    const gstCompany = document.getElementById("regGstCompany") ? document.getElementById("regGstCompany").value.trim() : "";
+    const gstNumber = document.getElementById("regGstNumber") ? document.getElementById("regGstNumber").value.trim() : "";
+    const dobDay = document.getElementById("dobDay") ? document.getElementById("dobDay").value : "";
+    const dobMonth = document.getElementById("dobMonth") ? document.getElementById("dobMonth").value : "";
+    const dobYear = document.getElementById("dobYear") ? document.getElementById("dobYear").value : "";
+    const annivDay = document.getElementById("annivDay") ? document.getElementById("annivDay").value : "";
+    const annivMonth = document.getElementById("annivMonth") ? document.getElementById("annivMonth").value : "";
+    const annivYear = document.getElementById("annivYear") ? document.getElementById("annivYear").value : "";
 
     // ----- Client-side validation -----
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !age || !gender) {
       showFormMessage("regMessage", "Please fill in all mandatory fields.", "error");
       return;
     }
@@ -190,7 +200,13 @@ function initRegisterForm() {
     }
 
     try {
-      await register(name, email, password);
+      const userData = {
+        name, age, email, password, gender,
+        gstCompany, gstNumber,
+        dob: dobDay && dobMonth && dobYear ? `${dobYear}-${dobMonth}-${dobDay}` : null,
+        anniv: annivDay && annivMonth && annivYear ? `${annivYear}-${annivMonth}-${annivDay}` : null
+      };
+      await register(userData);
       showFormMessage(
         "regMessage",
         "Account created successfully! Redirecting to login...",
