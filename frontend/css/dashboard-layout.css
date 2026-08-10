@@ -603,3 +603,103 @@
     margin-bottom: 0;
   }
 }
+
+/* ============================================================
+   Dashboard Dark Theme Styles
+   ============================================================ */
+body.dark-theme .dashboard-app-wrapper {
+  background-color: var(--light, #0f1a14);
+  color: var(--dark, #e8f0ec);
+}
+
+body.dark-theme .dashboard-sidebar {
+  background-color: #16241c;
+  border-right-color: #2a3d34;
+}
+
+body.dark-theme .sidebar-profile {
+  background-color: #0f1a14;
+  border-color: #2a3d34;
+}
+
+body.dark-theme .sidebar-profile-info h4,
+body.dark-theme .brand-title,
+body.dark-theme .section-title,
+body.dark-theme .widget-stat h3,
+body.dark-theme .ticket-info h4,
+body.dark-theme .topbar-link {
+  color: #e8f0ec;
+}
+
+body.dark-theme .sidebar-nav-item {
+  color: #8fa898;
+}
+
+body.dark-theme .sidebar-nav-item:hover,
+body.dark-theme .sidebar-nav-item.active {
+  background-color: #1a3328;
+  color: #3dba84;
+}
+
+body.dark-theme .dashboard-topbar {
+  background-color: rgba(22, 36, 28, 0.95);
+  border-bottom: 1px solid #2a3d34;
+}
+
+body.dark-theme .topbar-icon {
+  background-color: #16241c;
+  border-color: #2a3d34;
+  color: #e8f0ec;
+}
+
+body.dark-theme .role-badge {
+  background-color: #16241c;
+  border-color: #2a3d34;
+  color: #8fa898;
+}
+
+body.dark-theme .role-name {
+  color: #3dba84;
+}
+
+body.dark-theme .widget-stat,
+body.dark-theme .widget-ticket,
+body.dark-theme .dashboard-inline-search,
+body.dark-theme .search-field-box {
+  background-color: #16241c !important;
+  border-color: #2a3d34 !important;
+  color: #e8f0ec;
+}
+
+body.dark-theme .search-field-box input {
+  color: #e8f0ec;
+  background: transparent;
+}
+
+body.dark-theme .ticket-type {
+  border-left-color: #2a3d34;
+}
+
+/* ============================================================
+   M3 Component Radius & Motion Integration
+   ============================================================ */
+.stat-card,
+.widget-ticket,
+.quick-action-card,
+.recent-booking-card {
+  border-radius: var(--md-shape-corner-xl, 28px) !important;
+  transition: transform var(--md-sys-motion-duration-medium, 0.35s) var(--md-sys-motion-easing-spring, cubic-bezier(0.2, 0, 0, 1)),
+              box-shadow var(--md-sys-motion-duration-medium, 0.35s) var(--md-sys-motion-easing-spring, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.btn-upgrade {
+  border-radius: var(--md-shape-corner-full, 9999px) !important;
+  font-weight: 700;
+  transition: transform var(--md-sys-motion-duration-short, 0.2s) var(--md-sys-motion-easing-spring, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.btn-upgrade:hover {
+  transform: translateY(-2px);
+}
+
+

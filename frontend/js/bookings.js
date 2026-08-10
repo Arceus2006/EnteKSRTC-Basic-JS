@@ -8,7 +8,7 @@
 
 function renderBookingCard(booking) {
   const card = document.createElement("div");
-  card.className = "booking-card";
+  card.className = "booking-card modern-card m3-card";
 
   // The backend is expected to populate "bus" with route info,
   // but we guard against it being missing so the page doesn't break.
@@ -51,7 +51,7 @@ async function loadMyBookings() {
           <span class="material-symbols-outlined">history</span>
           <h3>No bookings yet</h3>
           <p>You haven't booked any trips yet. Go search for a bus and start your premium journey!</p>
-          <a href="buses.html" class="btn-search" style="margin-top:24px;width:auto;justify-content:center">Search Buses</a>
+          <a href="buses.html" class="m3-btn-filled btn-search" style="margin-top:24px;width:auto;justify-content:center">Search Buses</a>
         </div>
       `;
       return;

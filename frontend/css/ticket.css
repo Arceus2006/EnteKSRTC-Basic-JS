@@ -84,7 +84,7 @@
   left: -15px;
   width: 30px;
   height: 30px;
-  background: rgba(0,0,0,0.5); /* Semi-transparent to match the overlay */
+  background: var(--light, #f6f8f7);
   border-radius: 50%;
   z-index: 10;
 }
@@ -153,3 +153,40 @@
     padding: 24px;
   }
 }
+
+/* ---------- Dark Mode Support ---------- */
+body.dark-theme .auth-page-wrapper {
+  background: var(--light, #0f1a14);
+}
+
+body.dark-theme .ticket-card {
+  background: #16241c;
+  border: 1px solid #2a3d34;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .ticket-form-panel h2,
+body.dark-theme .ticket-form-panel label,
+body.dark-theme .auth-footer {
+  color: #e8f0ec;
+}
+
+body.dark-theme .btn-social {
+  background: #101d16;
+  border-color: #2a3d34;
+  color: #e8f0ec;
+}
+
+body.dark-theme .btn-social:hover {
+  background: #1a2a20;
+}
+
+body.dark-theme .ticket-divider {
+  border-color: #2a3d34;
+}
+
+body.dark-theme .ticket-divider::before,
+body.dark-theme .ticket-divider::after {
+  background: #0f1a14;
+}
+

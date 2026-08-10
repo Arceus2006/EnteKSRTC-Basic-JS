@@ -1,48 +1,36 @@
 /* ============================================================
-   dashboard.js
-   Builds the "My Dashboard" summary page. Deliberately reuses
-   the existing GET /api/bookings/my endpoint (see api.js) and
-   computes stats on the client, instead of requiring a brand
-   new backend summary endpoint. Keeps the backend surface small.
+   dashboard.js (Updated Dashboard Renderer)
    ============================================================ */
 
 function isFutureDate(dateString) {
   if (!dateString) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const journeyDate = new Date(dateString);
-  return journeyDate >= today;
-}
-
-function formatCurrency(amount) {
-  const value = Number(amount) || 0;
-  return `₹${value.toLocaleString("en-IN")}`;
+  return new Date(dateString) >= today;
 }
 
 function renderGreeting() {
-  const greetingEl = document.getElementById("dashboardGreeting");
-  if (!greetingEl) return;
   const user = getCurrentUser();
-  const name = user && user.name ? user.name : "Traveller";
-  greetingEl.textContent = `Welcome back, ${name}`;
+  const name = user && user.name ? user.name : "Traveler";
+  
+  const greetingEl = document.getElementById("dashboardGreeting");
+  if (greetingEl) greetingEl.textContent = `Welcome, ${name}`;
+
+  const welcomeLarge = document.getElementById("dashboardWelcomeLarge");
+  if (welcomeLarge) {
+    welcomeLarge.innerHTML = `Welcome back,<br><span>${name}</span>`;
+  }
 }
 
-function renderStats(bookings) {
+function renderDashboardStats(bookings) {
   const totalBookings = bookings.length;
+  const upcoming = bookings.filter(b => isFutureDate(b.journeyDate));
 
-  // Array method (filter) to find upcoming trips.
-  const upcoming = bookings.filter(function (booking) {
-    return isFutureDate(booking.journeyDate);
-  });
+  const statTotalEl = document.getElementById("statTotalBookings");
+  if (statTotalEl) statTotalEl.textContent = totalBookings;
 
-  // Array method (reduce) to total up fares.
-  const totalSpent = bookings.reduce(function (sum, booking) {
-    return sum + (Number(booking.fare) || 0);
-  }, 0);
-
-  document.getElementById("statTotalBookings").textContent = totalBookings;
-  document.getElementById("statUpcomingCount").textContent = upcoming.length;
-  document.getElementById("statTotalSpent").textContent = formatCurrency(totalSpent);
+  const statLoyaltyEl = document.getElementById("statLoyaltyPoints");
+  if (statLoyaltyEl) statLoyaltyEl.textContent = (totalBookings * 50 + 200).toLocaleString();
 
   return upcoming;
 }
@@ -52,65 +40,55 @@ function renderNextTrip(upcomingBookings) {
   if (!card) return;
 
   if (upcomingBookings.length === 0) {
-    card.innerHTML = `<p>No upcoming trips booked yet. <a href="buses.html">Search for a bus</a> to plan your next journey.</p>`;
+    card.innerHTML = `
+      <div style="padding: 12px; color: var(--gray);">
+        <p>No upcoming journeys scheduled.</p>
+        <a href="buses.html" style="color: var(--primary); font-weight: 700;">Explore Routes &rarr;</a>
+      </div>
+    `;
     return;
   }
 
-  // Sort a copy by date ascending, then take the soonest one.
-  const sorted = [...upcomingBookings].sort(function (a, b) {
-    return new Date(a.journeyDate) - new Date(b.journeyDate);
-  });
+  const sorted = [...upcomingBookings].sort((a, b) => new Date(a.journeyDate) - new Date(b.journeyDate));
   const next = sorted[0];
   const bus = next.bus || {};
 
   card.innerHTML = `
-    <p><strong>${bus.busName || "Bus"}</strong></p>
-    <p>${bus.source || "?"} &rarr; ${bus.destination || "?"}</p>
-    <p>Date: ${next.journeyDate || "-"} &nbsp;|&nbsp; Seat: ${next.seat || "-"}</p>
-    <p>Passenger: ${next.passengerName || "-"}</p>
+    <div class="ticket-left">
+      <div class="ticket-icon">
+        <span class="material-symbols-outlined">directions_bus</span>
+      </div>
+      <div class="ticket-details">
+        <h3 style="margin: 0; font-size: 1.1rem;">${bus.busName || "KSRTC Bus"}</h3>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--gray);">${bus.source || "?"} &rarr; ${bus.destination || "?"} (${next.journeyDate || "-"})</p>
+      </div>
+    </div>
+    <div class="ticket-seat">
+      <span>SEAT</span>
+      <strong>${next.seat || "-"}</strong>
+    </div>
   `;
 }
 
 async function loadDashboard() {
   const statusEl = document.getElementById("dashboardStatus");
-  const statsEl = document.getElementById("dashboardStats");
-
-  statusEl.className = "hidden";
-  statsEl.classList.remove("hidden");
-  
-  // Set skeletons manually for stats
-  document.getElementById("statTotalBookings").innerHTML = `<div class="skeleton" style="width:40px;height:24px;"></div>`;
-  document.getElementById("statUpcomingCount").innerHTML = `<div class="skeleton" style="width:40px;height:24px;"></div>`;
-  document.getElementById("statTotalSpent").innerHTML = `<div class="skeleton" style="width:60px;height:24px;"></div>`;
-  
-  const nextTripCard = document.getElementById("nextTripCard");
-  if (nextTripCard) {
-    nextTripCard.innerHTML = `
-      <div class="skeleton" style="width:60%;height:20px;margin-bottom:8px"></div>
-      <div class="skeleton" style="width:40%;height:16px;margin-bottom:8px"></div>
-      <div class="skeleton" style="width:50%;height:16px;"></div>
-    `;
-  }
+  if (statusEl) statusEl.className = "hidden";
 
   try {
     const bookings = await getMyBookings();
     const list = Array.isArray(bookings) ? bookings : [];
-
-    statusEl.className = "hidden";
-    statsEl.classList.remove("hidden");
-
-    const upcoming = renderStats(list);
+    const upcoming = renderDashboardStats(list);
     renderNextTrip(upcoming);
   } catch (error) {
-    statusEl.textContent = `Could not load dashboard: ${error.message}`;
-    statusEl.className = "status-message status-error";
-    document.getElementById("nextTripCard").innerHTML =
-      "<p>Unable to load trip details right now.</p>";
+    if (statusEl) {
+      statusEl.textContent = `Could not load trip data: ${error.message}`;
+      statusEl.className = "status-message status-error";
+    }
   }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  requireLogin(); // Dashboard is only for logged-in users.
+  requireLogin();
   renderGreeting();
   loadDashboard();
 });

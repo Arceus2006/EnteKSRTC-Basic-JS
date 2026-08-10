@@ -10,6 +10,16 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("entekstc_theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark-theme");
+        document.addEventListener("DOMContentLoaded", () => document.body.classList.add("dark-theme"));
+      }
+    })();
+  </script>
 </head>
 
 <body class="bg-gray-light">
@@ -30,6 +40,10 @@
         <a href="dashboard.html" class="nav-item">Dashboard</a>
       </div>
       <div class="nav-actions">
+        <label class="md-switch-label" title="Toggle Theme">
+          <span class="material-symbols-outlined" style="font-size: 18px; color: var(--gray);">dark_mode</span>
+          <input type="checkbox" id="themeToggleSwitch" class="md-switch">
+        </label>
         <a href="login.html" id="navAuthLink" class="btn-primary-modern">Login</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
@@ -54,7 +68,7 @@
     <div class="internal-container" style="display: flex; gap: 32px; max-width: 1200px; margin: 0 auto; padding: 0 24px; flex-wrap: wrap;">
 
       <!-- Sidebar Filters -->
-      <aside style="flex: 1 1 280px; max-width: 320px; background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-border); box-shadow: 0 4px 20px rgba(0,0,0,0.05); align-self: flex-start;">
+      <aside class="m3-card" style="flex: 1 1 280px; max-width: 320px; padding: 24px; align-self: flex-start;">
         <h3 style="margin-bottom: 24px; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 1.25rem;">
           <span class="material-symbols-outlined text-primary">filter_list</span> Filters
         </h3>
@@ -72,17 +86,21 @@
         <div style="margin-bottom: 28px; padding-top: 24px; border-top: 1px solid var(--gray-border);">
           <label style="display: block; font-weight: 600; margin-bottom: 16px; color: var(--dark); font-size: 0.95rem;">Bus Type</label>
           <div style="display: flex; flex-direction: column; gap: 14px;">
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="AC Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> AC Sleeper
+            <label class="md-switch-label">
+              <input type="checkbox" value="AC Sleeper" class="md-switch bus-type-cb">
+              <span>AC Sleeper</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="Non-AC Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Non-AC Sleeper
+            <label class="md-switch-label">
+              <input type="checkbox" value="Non-AC Sleeper" class="md-switch bus-type-cb">
+              <span>Non-AC Sleeper</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="AC Semi-Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> AC Semi-Sleeper
+            <label class="md-switch-label">
+              <input type="checkbox" value="AC Semi-Sleeper" class="md-switch bus-type-cb">
+              <span>AC Semi-Sleeper</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="Seater" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Seater
+            <label class="md-switch-label">
+              <input type="checkbox" value="Seater" class="md-switch bus-type-cb">
+              <span>Seater</span>
             </label>
           </div>
         </div>
@@ -90,17 +108,21 @@
         <div style="padding-top: 24px; border-top: 1px solid var(--gray-border);">
           <label style="display: block; font-weight: 600; margin-bottom: 16px; color: var(--dark); font-size: 0.95rem;">Departure Time</label>
           <div style="display: flex; flex-direction: column; gap: 14px;">
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="Before 6 AM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Before 6 AM
+            <label class="md-switch-label">
+              <input type="checkbox" value="Before 6 AM" class="md-switch dep-time-cb">
+              <span>Before 6 AM</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="6 AM to 12 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> 6 AM to 12 PM
+            <label class="md-switch-label">
+              <input type="checkbox" value="6 AM to 12 PM" class="md-switch dep-time-cb">
+              <span>6 AM to 12 PM</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="12 PM to 6 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> 12 PM to 6 PM
+            <label class="md-switch-label">
+              <input type="checkbox" value="12 PM to 6 PM" class="md-switch dep-time-cb">
+              <span>12 PM to 6 PM</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
-              <input type="checkbox" value="After 6 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> After 6 PM
+            <label class="md-switch-label">
+              <input type="checkbox" value="After 6 PM" class="md-switch dep-time-cb">
+              <span>After 6 PM</span>
             </label>
           </div>
         </div>
@@ -114,7 +136,7 @@
             <h3 class="section-title">Available Buses</h3>
           </div>
         </div>
-        <p id="busSearchSummary" style="color: var(--gray); font-weight: 500; margin-bottom: 24px; font-size: 1.05rem; background: white; padding: 16px; border-radius: 12px; border: 1px solid var(--gray-border);"></p>
+        <p id="busSearchSummary" class="m3-card" style="color: var(--gray); font-weight: 500; margin-bottom: 24px; font-size: 1.05rem; padding: 16px;"></p>
 
         <div id="busSearchStatus" class="status-message hidden"></div>
 
