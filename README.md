@@ -41,11 +41,10 @@ frontend/
 ├── login.html            # Boarding pass style sign-in pass card
 ├── register.html         # Boarding pass style account creation pass card
 ├── images/
-│   ├── ksrtc_swift_luxury.jpg # Sleek dark futuristic K-Swift coach
-│   ├── ksrtc_hairpin_route.jpg # Aerial view of winding mountain hairpin routes
-│   ├── ksrtc_mountain_clouds.jpg # Drone high-altitude mountain road through clouds
-│   ├── ksrtc_venad_misty.jpg   # Iconic misty forest Venad Ordinary KSRTC bus
-│   ├── ksrtc_monsoon_road.jpg  # Monsoon rainforest highway reflections
+│   ├── hero_ksrtc_bus.png     # Ultra-wide 21:9 KSRTC luxury coach hero banner
+│   ├── hairpin_route.png      # Ultra-wide 21:9 aerial view of mountain hairpin curves
+│   ├── mountain_clouds.png    # Ultra-wide 21:9 cloud-wrapped cliffside mountain road
+│   ├── venad_misty.png        # Ultra-wide 21:9 misty forest Venad KSRTC bus
 │   ├── munnar.png             # Munnar tea garden landscape
 │   ├── kochi.png              # Fort Kochi Chinese fishing nets
 │   └── alleppey.png           # Alleppey backwater houseboat
