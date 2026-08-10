@@ -1,0 +1,136 @@
+/* ============================================================
+   navbar.css
+   Modern Pill Floating Navbar Styles
+   ============================================================ */
+
+.modern-navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1200px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--md-shape-corner-full);
+  z-index: 1000;
+  box-shadow: var(--glass-shadow);
+  padding: 12px 24px;
+  transition: all var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.nav-brand .text-primary {
+  color: var(--primary);
+  font-size: 2rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--dark);
+}
+
+.brand-tag {
+  font-size: 0.7rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-item {
+  font-weight: 600;
+  color: var(--gray);
+  font-size: 0.95rem;
+  position: relative;
+  padding: 4px 0;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  color: var(--primary);
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ---------- Mobile Navigation ---------- */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links,
+  .nav-actions {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 16px 0;
+  }
+
+  .navbar-container {
+    flex-wrap: wrap;
+  }
+
+  .modern-navbar.nav-open .nav-links,
+  .modern-navbar.nav-open .nav-actions {
+    display: flex;
+  }
+}

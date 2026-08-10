@@ -1,0 +1,69 @@
+/* ============================================================
+   footer.css
+   Modern Footer Styles
+   ============================================================ */
+
+.modern-footer {
+  background: #111827;
+  color: var(--white);
+  padding: 80px 20px 40px;
+  margin-top: 80px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+}
+
+.footer-brand p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 20px;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.footer-links {
+  display: flex;
+  gap: 80px;
+}
+
+.link-column h3 {
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+
+.link-column a {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.link-column a:hover {
+  color: var(--primary);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}

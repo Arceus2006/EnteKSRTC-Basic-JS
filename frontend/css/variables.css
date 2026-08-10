@@ -1,0 +1,99 @@
+/* ============================================================
+   variables.css
+   Material Design 3 (M3) Global Tokens & Color Roles
+   ============================================================ */
+
+:root {
+  /* Primary Color Role (KSRTC Green) */
+  --md-sys-color-primary: #0b6e4f;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #dceee4;
+  --md-sys-color-on-primary-container: #042d1f;
+
+  /* Secondary Color Role (Kasavu Gold) */
+  --md-sys-color-secondary: #d4af37;
+  --md-sys-color-on-secondary: #1a1708;
+  --md-sys-color-secondary-container: #f7eed2;
+  --md-sys-color-on-secondary-container: #3a2e04;
+
+  /* Tertiary Color Role (Accent Coral) */
+  --md-sys-color-tertiary: #d1483c;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #fbeceb;
+
+  /* Surface & Container Scale */
+  --md-sys-color-surface: #f6f8f7;
+  --md-sys-color-on-surface: #1f2a24;
+  --md-sys-color-surface-variant: #e1e9e4;
+  --md-sys-color-on-surface-variant: #414e47;
+
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f1f5f3;
+  --md-sys-color-surface-container: #eaefe9;
+  --md-sys-color-surface-container-high: #e4eae3;
+  --md-sys-color-surface-container-highest: #dde4dd;
+
+  /* Outline Scale */
+  --md-sys-color-outline: #718077;
+  --md-sys-color-outline-variant: #c0ccc5;
+
+  /* M3 Shape Radii Scale */
+  --md-shape-corner-xs: 4px;
+  --md-shape-corner-sm: 8px;
+  --md-shape-corner-md: 12px;
+  --md-shape-corner-lg: 16px;
+  --md-shape-corner-xl: 28px;
+  --md-shape-corner-full: 9999px;
+
+  /* M3 Motion & Physics */
+  --md-sys-motion-easing-spring: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-duration-short: 0.2s;
+  --md-sys-motion-duration-medium: 0.35s;
+
+  /* Legacy Backward-Compatibility Aliases */
+  --primary: var(--md-sys-color-primary);
+  --primary-hover: #08553d;
+  --primary-light: var(--md-sys-color-primary-container);
+  --secondary: var(--md-sys-color-secondary);
+  --secondary-hover: #b89628;
+  --secondary-light: var(--md-sys-color-secondary-container);
+  --dark: var(--md-sys-color-on-surface);
+  --light: var(--md-sys-color-surface);
+  --gray: var(--md-sys-color-outline);
+  --gray-light: var(--md-sys-color-surface-container-low);
+  --gray-border: var(--md-sys-color-outline-variant);
+  --white: #ffffff;
+
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--light);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+/* ---------- Typography & Icons ---------- */
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+.icon-filled {
+  font-variation-settings: 'FILL' 1;
+}

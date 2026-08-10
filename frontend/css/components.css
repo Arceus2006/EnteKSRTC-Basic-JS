@@ -1,0 +1,333 @@
+/* ============================================================
+   components.css
+   Shared Material Design 3 and Legacy UI Component Classes
+   ============================================================ */
+
+/* ---------- M3 Cards & Buttons ---------- */
+.m3-card {
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border-radius: var(--md-shape-corner-xl) !important;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring),
+              box-shadow var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring),
+              background-color var(--md-sys-motion-duration-short) ease,
+              border-color var(--md-sys-motion-duration-short) ease;
+}
+
+.m3-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+  background-color: var(--md-sys-color-surface-container-low);
+}
+
+.m3-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--md-sys-color-primary) !important;
+  color: var(--md-sys-color-on-primary) !important;
+  border: none !important;
+  border-radius: var(--md-shape-corner-full) !important;
+  padding: 14px 28px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(11, 110, 79, 0.25);
+  transition: transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-spring),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-spring),
+              background-color var(--md-sys-motion-duration-short) ease;
+  text-decoration: none;
+}
+
+.m3-btn-filled:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(11, 110, 79, 0.35);
+}
+
+.m3-btn-filled:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 4px rgba(11, 110, 79, 0.2);
+}
+
+.btn-primary-modern {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--white);
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(11, 110, 79, 0.3);
+}
+
+.btn-primary-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(11, 110, 79, 0.4);
+}
+
+.btn-primary-modern:active,
+.btn-search:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Search and Action Buttons ---------- */
+.btn-search {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-hover) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  height: 56px;
+  padding: 0 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(209, 72, 60, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(209, 72, 60, 0.5);
+}
+
+/* ---------- Legacy Forms ---------- */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+/* ---------- Status Messages & Toasts ---------- */
+.status-message {
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin: 16px 0;
+  font-size: 0.95rem;
+}
+
+.status-loading {
+  background: #eef2f0;
+  color: var(--text-muted);
+}
+
+.status-info {
+  background: #eaf3ee;
+  color: var(--ksrtc-green-dark);
+}
+
+.status-error {
+  background: #fbeceb;
+  color: var(--error);
+}
+
+.form-message {
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.form-message-success {
+  background: #e7f6ec;
+  color: var(--success);
+}
+
+.form-message-error {
+  background: #fbeceb;
+  color: var(--error);
+}
+
+/* ---------- Toast Notifications ---------- */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+}
+
+.toast {
+  background: var(--white);
+  color: var(--dark);
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-success {
+  border-left: 6px solid var(--primary);
+}
+
+.toast-error {
+  border-left: 6px solid var(--secondary);
+}
+
+.toast-icon {
+  font-size: 1.5rem;
+}
+
+.toast-success .toast-icon {
+  color: var(--primary);
+}
+
+.toast-error .toast-icon {
+  color: var(--secondary);
+}
+
+/* ---------- Skeleton Loading ---------- */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.skeleton {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: skeleton-shimmer;
+  animation-timing-function: linear;
+  border-radius: 8px;
+  color: transparent !important;
+}
+
+.skeleton * {
+  visibility: hidden;
+}
+
+/* ---------- Empty States ---------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--gray);
+}
+
+.empty-state .material-symbols-outlined {
+  font-size: 4rem;
+  color: var(--gray-light);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+
+/* ---------- Material 3 Toggle Switch ---------- */
+.md-switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.95rem;
+}
+
+.md-switch {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  appearance: none;
+  background-color: var(--gray-light);
+  border: 2px solid var(--gray);
+  border-radius: 16px;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.md-switch::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--gray);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), 
+              width 0.15s ease, 
+              background-color 0.25s ease;
+}
+
+.md-switch:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.md-switch:checked::before {
+  transform: translateX(20px);
+  background-color: var(--white);
+  width: 20px;
+  height: 20px;
+  top: 2px;
+}
+
+.md-switch:active::before {
+  width: 24px;
+}
