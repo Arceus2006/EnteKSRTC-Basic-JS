@@ -288,6 +288,15 @@
   font-size: 0.95rem;
 }
 
+.md-switch-label .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 1;
+}
+
 .md-switch {
   position: relative;
   width: 52px;
@@ -304,14 +313,15 @@
 .md-switch::before {
   content: '';
   position: absolute;
-  top: 4px;
-  left: 4px;
+  top: 6px;
+  left: 6px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background-color: var(--gray);
   transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), 
-              width 0.15s ease, 
+              width 0.25s cubic-bezier(0.2, 0, 0, 1), 
+              height 0.25s cubic-bezier(0.2, 0, 0, 1),
               background-color 0.25s ease;
 }
 
@@ -321,13 +331,12 @@
 }
 
 .md-switch:checked::before {
-  transform: translateX(20px);
+  transform: translate(18px, -2px);
   background-color: var(--white);
   width: 20px;
   height: 20px;
-  top: 2px;
 }
 
 .md-switch:active::before {
-  width: 24px;
+  width: 22px;
 }
