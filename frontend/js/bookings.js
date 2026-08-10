@@ -36,21 +36,29 @@ async function loadMyBookings() {
   const statusEl = document.getElementById("bookingsStatus");
   if (!container) return; // Not on this page.
 
-  container.innerHTML = "";
-  statusEl.textContent = "Loading your bookings...";
-  statusEl.className = "status-message status-loading";
+  container.innerHTML = `
+    <div class="booking-card skeleton" style="height: 180px;"></div>
+    <div class="booking-card skeleton" style="height: 180px;"></div>
+  `;
+  statusEl.className = "hidden";
 
   try {
     const bookings = await getMyBookings();
 
     if (!Array.isArray(bookings) || bookings.length === 0) {
-      statusEl.textContent = "You have no bookings yet. Go search for a bus!";
-      statusEl.className = "status-message status-info";
+      container.innerHTML = `
+        <div class="empty-state">
+          <span class="material-symbols-outlined">history</span>
+          <h3>No bookings yet</h3>
+          <p>You haven't booked any trips yet. Go search for a bus and start your premium journey!</p>
+          <a href="buses.html" class="btn-search" style="margin-top:24px;width:auto;justify-content:center">Search Buses</a>
+        </div>
+      `;
       return;
     }
 
-    statusEl.textContent = "";
-    statusEl.className = "";
+    statusEl.className = "hidden";
+    container.innerHTML = "";
 
     bookings.forEach(function (booking) {
       container.appendChild(renderBookingCard(booking));

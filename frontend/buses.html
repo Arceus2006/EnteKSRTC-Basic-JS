@@ -1,37 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnteKSRTC Basic - Bus Results</title>
+  <title>Search Buses - Ente KSRTC Premium</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
 
-  <nav class="navbar">
-    <div class="navbar-brand">🚌 EnteKSRTC</div>
-    <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="buses.html">Search Buses</a>
-      <a href="bookings.html">My Bookings</a>
-      <a href="login.html" id="navAuthLink">Login / Register</a>
+<body class="bg-gray-light">
+
+  <!-- Floating Glass Navbar -->
+  <nav class="modern-navbar" id="navbar">
+    <div class="navbar-container">
+      <div class="nav-brand">
+        <span class="material-symbols-outlined text-primary icon-filled">directions_bus</span>
+        <div class="brand-text">
+          <span class="brand-title">Ente KSRTC</span>
+          <span class="brand-tag">Premium Journey</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="buses.html" class="nav-item active">Routes</a>
+        <a href="dashboard.html" class="nav-item">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html" id="navAuthLink" class="btn-primary-modern">Login</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
     </div>
   </nav>
 
-  <div class="container">
-    <h2 class="section-heading">Available Buses</h2>
-    <p id="busSearchSummary" style="color: var(--text-muted);"></p>
+  <!-- Cinematic Internal Header -->
+  <header class="internal-hero"
+    style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop');">
+    <div class="internal-hero-overlay"></div>
+    <div class="internal-hero-content">
+      <h1 class="internal-title">Search Routes</h1>
+      <p class="internal-subtitle">Find premium routes across God's Own Country</p>
+    </div>
+  </header>
 
-    <div id="busSearchStatus" class="status-message hidden"></div>
+  <div class="kasavu-rule"></div>
 
-    <div id="busResults"></div>
-  </div>
+  <main class="internal-main-content" style="padding-top: 40px; padding-bottom: 80px;">
+    <div class="internal-container" style="display: flex; gap: 32px; max-width: 1200px; margin: 0 auto; padding: 0 24px; flex-wrap: wrap;">
 
-  <footer class="site-footer">EnteKSRTC Basic &mdash; Educational project, no real payments involved.</footer>
+      <!-- Sidebar Filters -->
+      <aside style="flex: 1 1 280px; max-width: 320px; background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-border); box-shadow: 0 4px 20px rgba(0,0,0,0.05); align-self: flex-start;">
+        <h3 style="margin-bottom: 24px; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 1.25rem;">
+          <span class="material-symbols-outlined text-primary">filter_list</span> Filters
+        </h3>
 
+        <div style="margin-bottom: 28px;">
+          <label style="display: block; font-weight: 600; margin-bottom: 12px; color: var(--dark); font-size: 0.95rem;">Sort By</label>
+          <select id="sortSelect" class="input-field" style="padding: 12px; width: 100%; border-radius: 8px; border: 1px solid var(--gray-border); background: var(--bg-color);">
+            <option value="Relevance">Relevance</option>
+            <option value="Price: Low to High">Price: Low to High</option>
+            <option value="Departure: Earliest First">Departure: Earliest First</option>
+            <option value="Rating: High to Low">Rating: High to Low</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 28px; padding-top: 24px; border-top: 1px solid var(--gray-border);">
+          <label style="display: block; font-weight: 600; margin-bottom: 16px; color: var(--dark); font-size: 0.95rem;">Bus Type</label>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="AC Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> AC Sleeper
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="Non-AC Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Non-AC Sleeper
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="AC Semi-Sleeper" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> AC Semi-Sleeper
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="Seater" class="bus-type-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Seater
+            </label>
+          </div>
+        </div>
+
+        <div style="padding-top: 24px; border-top: 1px solid var(--gray-border);">
+          <label style="display: block; font-weight: 600; margin-bottom: 16px; color: var(--dark); font-size: 0.95rem;">Departure Time</label>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="Before 6 AM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> Before 6 AM
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="6 AM to 12 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> 6 AM to 12 PM
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="12 PM to 6 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> 12 PM to 6 PM
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--gray); font-size: 0.95rem;">
+              <input type="checkbox" value="After 6 PM" class="dep-time-cb" style="width: 18px; height: 18px; accent-color: var(--primary);"> After 6 PM
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Results Area -->
+      <div style="flex: 2 1 600px;">
+        <div class="dashboard-section-header" style="margin-bottom: 12px;">
+          <div>
+            <span class="section-eyebrow">Search Results</span>
+            <h3 class="section-title">Available Buses</h3>
+          </div>
+        </div>
+        <p id="busSearchSummary" style="color: var(--gray); font-weight: 500; margin-bottom: 24px; font-size: 1.05rem; background: white; padding: 16px; border-radius: 12px; border: 1px solid var(--gray-border);"></p>
+
+        <div id="busSearchStatus" class="status-message hidden"></div>
+
+        <div id="busResults" class="modern-bus-results" style="display: flex; flex-direction: column; gap: 24px;"></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="kasavu-rule"></div>
+
+  <footer class="modern-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-text">
+          <span class="brand-title">Ente KSRTC</span>
+          <span class="brand-tag">Premium Journey</span>
+        </div>
+        <p>Experience the pinnacle of mobility across God's Own Country. We connect communities, empower travelers, and
+          deliver cinematic journeys with unparalleled comfort and safety.</p>
+      </div>
+      <div class="footer-links">
+        <div class="link-column">
+          <h3>Explore</h3>
+          <a href="buses.html">Routes</a>
+          <a href="#">Fleet</a>
+          <a href="#">Offers</a>
+        </div>
+        <div class="link-column">
+          <h3>Support</h3>
+          <a href="#">Help Center</a>
+          <a href="#">Contact</a>
+          <a href="#">Grievances</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Kerala State Road Transport Corporation. Educational Project.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navbar = document.getElementById('navbar');
+    if (navToggle && navbar) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navbar.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+        navToggle.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
+      });
+    }
+  </script>
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/buses.js"></script>
 </body>
+
 </html>

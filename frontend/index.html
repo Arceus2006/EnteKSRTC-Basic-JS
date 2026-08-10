@@ -1,61 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnteKSRTC Basic - Home</title>
+  <title>Ente KSRTC - Premium Journey</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
 
-  <nav class="navbar">
-    <div class="navbar-brand">🚌 EnteKSRTC</div>
-    <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="buses.html">Search Buses</a>
-      <a href="bookings.html">My Bookings</a>
-      <a href="login.html" id="navAuthLink">Login / Register</a>
+  <!-- Floating Glass Navbar -->
+  <nav class="modern-navbar" id="navbar">
+    <div class="navbar-container">
+      <div class="nav-brand">
+        <span class="material-symbols-outlined text-primary icon-filled">directions_bus</span>
+        <div class="brand-text">
+          <span class="brand-title">Ente KSRTC</span>
+          <span class="brand-tag">Premium Journey</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-item active">Home</a>
+        <a href="#" class="nav-item">Contact</a>
+        <a href="#" class="nav-item">Kerala Tourism</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html" id="navAuthLink" class="btn-primary-modern">Login</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
     </div>
   </nav>
 
-  <section class="hero">
-    <h1>Book KSRTC Bus Tickets, the Simple Way</h1>
-    <p>Search routes, pick a seat, and confirm your ticket in a few clicks.</p>
-  </section>
-
-  <div class="container">
-    <div class="search-card">
-      <form id="searchForm" class="search-form">
-        <div class="form-group">
-          <label for="searchFrom">From</label>
-          <input type="text" id="searchFrom" name="from" placeholder="e.g. Kollam" required />
-        </div>
-        <div class="form-group">
-          <label for="searchTo">To</label>
-          <input type="text" id="searchTo" name="to" placeholder="e.g. Kochi" required />
-        </div>
-        <div class="form-group">
-          <label for="searchDate">Journey Date</label>
-          <input type="date" id="searchDate" name="date" required />
-        </div>
-        <button type="submit" class="btn btn-primary">Search Buses</button>
-      </form>
+  <!-- Cinematic Hero -->
+  <header class="hero">
+    <div class="hero-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop');">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">
+        <span class="material-symbols-outlined" style="font-size: 1rem;">confirmation_number</span>
+        Kerala State Road Transport Corporation
+      </span>
+      <h1 class="hero-title">Experience the <em>Journey</em></h1>
+      <p class="hero-subtitle">Premium mobility across Kerala and beyond. Seamless, comfortable, and cinematic travel.
+      </p>
     </div>
 
-    <h2 class="section-heading">How it works</h2>
-    <p style="color: var(--text-muted);">
-      1. Search a route and date &nbsp;→&nbsp;
-      2. Pick a bus from the results &nbsp;→&nbsp;
-      3. Choose your seat &nbsp;→&nbsp;
-      4. Confirm the booking and view it under "My Bookings".
-    </p>
+    <!-- Glassmorphism Booking Widget -->
+    <div class="booking-widget-wrapper">
+      <div class="booking-widget">
+        <div class="widget-tabs">
+          <button class="widget-tab active">Book Bus Ticket</button>
+          <button class="widget-tab">Link Ticket Booking</button>
+        </div>
+        <form id="searchForm" class="horizontal-form">
+          <div class="input-group">
+            <label>From</label>
+            <div class="input-field-wrapper">
+              <span class="material-symbols-outlined input-icon">location_on</span>
+              <input type="text" id="searchFrom" class="input-field" placeholder="Departure City" list="citiesList"
+                required>
+            </div>
+          </div>
+          <div class="swap-divider">
+            <button type="button" class="swap-btn" aria-label="Swap cities"><span
+                class="material-symbols-outlined">swap_horiz</span></button>
+          </div>
+          <div class="input-group">
+            <label>To</label>
+            <div class="input-field-wrapper">
+              <span class="material-symbols-outlined input-icon">flag</span>
+              <input type="text" id="searchTo" class="input-field" placeholder="Destination City" list="citiesList"
+                required>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="input-group">
+            <label>Date</label>
+            <div class="input-field-wrapper">
+              <span class="material-symbols-outlined input-icon">calendar_month</span>
+              <input type="date" id="searchDate" class="input-field">
+            </div>
+          </div>
+          <div class="search-btn-wrapper">
+            <button type="submit" class="btn-search">
+              <span>Search</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="kasavu-rule"></div>
+
+  <main class="main-content">
+
+    <!-- Top Routes Section -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Fares from Trivandrum</span>
+          <h2 class="section-title">Top Routes</h2>
+        </div>
+        <a href="buses.html" class="view-all">View All <span class="material-symbols-outlined">chevron_right</span></a>
+      </div>
+      <div class="routes-grid">
+        <!-- Route Card -->
+        <div class="route-card">
+          <div class="route-img"
+            style="background-image: url('https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=2069&auto=format&fit=crop');">
+            <div class="route-duration">6h 30m</div>
+          </div>
+          <div class="route-perf"></div>
+          <div class="route-info">
+            <span class="route-code">TVM &rarr; EKM &bull; SUPER FAST</span>
+            <div class="route-destinations">
+              <h3>Trivandrum</h3>
+              <span class="material-symbols-outlined">arrow_right_alt</span>
+              <h3>Ernakulam</h3>
+            </div>
+            <div class="route-footer">
+              <div class="route-price-box">
+                <span class="starting-from">Starting from</span>
+                <span class="price">&#8377;650</span>
+              </div>
+              <button class="btn-book">Book</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Route Card 2 -->
+        <div class="route-card">
+          <div class="route-img"
+            style="background-image: url('https://images.unsplash.com/photo-1596443831818-8742d4157158?q=80&w=2069&auto=format&fit=crop');">
+            <div class="route-duration">4h 15m</div>
+          </div>
+          <div class="route-perf"></div>
+          <div class="route-info">
+            <span class="route-code">EKM &rarr; KKD &bull; K-SWIFT AC</span>
+            <div class="route-destinations">
+              <h3>Ernakulam</h3>
+              <span class="material-symbols-outlined">arrow_right_alt</span>
+              <h3>Kozhikode</h3>
+            </div>
+            <div class="route-footer">
+              <div class="route-price-box">
+                <span class="starting-from">Starting from</span>
+                <span class="price">&#8377;950</span>
+              </div>
+              <button class="btn-book">Book</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Route Card 3 -->
+        <div class="route-card">
+          <div class="route-img"
+            style="background-image: url('https://images.unsplash.com/photo-1605555416752-9f37da6e0ce3?q=80&w=2069&auto=format&fit=crop');">
+            <div class="route-duration">12h 45m</div>
+          </div>
+          <div class="route-perf"></div>
+          <div class="route-info">
+            <span class="route-code">TVM &rarr; BLR &bull; MINNAL SLEEPER</span>
+            <div class="route-destinations">
+              <h3>Trivandrum</h3>
+              <span class="material-symbols-outlined">arrow_right_alt</span>
+              <h3>Bangalore</h3>
+            </div>
+            <div class="route-footer">
+              <div class="route-price-box">
+                <span class="starting-from">Starting from</span>
+                <span class="price">&#8377;1850</span>
+              </div>
+              <button class="btn-book">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Destinations Section -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Where to next</span>
+          <h2 class="section-title">Popular Destinations</h2>
+        </div>
+      </div>
+      <div class="destinations-grid">
+        <!-- Dest 1 -->
+        <div class="dest-card dest-large">
+          <div class="dest-bg"
+            style="background-image: url('https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=2069&auto=format&fit=crop');">
+          </div>
+          <div class="dest-overlay"></div>
+          <div class="dest-content">
+            <h3>Munnar</h3>
+            <p>The Emerald Hills of Kerala</p>
+          </div>
+        </div>
+        <!-- Dest 2 -->
+        <div class="dest-card">
+          <div class="dest-bg"
+            style="background-image: url('https://images.unsplash.com/photo-1596443831818-8742d4157158?q=80&w=2069&auto=format&fit=crop');">
+          </div>
+          <div class="dest-overlay"></div>
+          <div class="dest-content">
+            <h3>Kochi</h3>
+            <p>Queen of the Arabian Sea</p>
+          </div>
+        </div>
+        <!-- Dest 3 -->
+        <div class="dest-card">
+          <div class="dest-bg"
+            style="background-image: url('https://images.unsplash.com/photo-1593693411515-c20261bcad6e?q=80&w=2069&auto=format&fit=crop');">
+          </div>
+          <div class="dest-overlay"></div>
+          <div class="dest-content">
+            <h3>Alleppey</h3>
+            <p>Venice of the East</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">On the road</span>
+          <h2 class="section-title">Gallery</h2>
+        </div>
+        <a href="#" class="view-all">View Gallery <span class="material-symbols-outlined">chevron_right</span></a>
+      </div>
+      <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=600&auto=format&fit=crop"
+          alt="Kerala backwaters">
+        <img src="https://images.unsplash.com/photo-1593693411515-c20261bcad6e?q=80&w=600&auto=format&fit=crop"
+          alt="Alleppey houseboat">
+        <img src="https://images.unsplash.com/photo-1605555416752-9f37da6e0ce3?q=80&w=600&auto=format&fit=crop"
+          alt="Kerala hills">
+        <img src="https://images.unsplash.com/photo-1596443831818-8742d4157158?q=80&w=600&auto=format&fit=crop"
+          alt="Kochi waterfront">
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section" style="padding-bottom: 20px;">
+      <div class="section-header" style="text-align: center; justify-content: center; margin-bottom: 40px;">
+        <div>
+          <span class="section-eyebrow">Passenger notes</span>
+          <h2 class="section-title">What Our Passengers Say</h2>
+        </div>
+      </div>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <span class="material-symbols-outlined testimonial-quote-mark">format_quote</span>
+          <div class="testimonial-stars">
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+          </div>
+          <p class="testimonial-text">The new K-Swift buses are incredibly comfortable for long journeys. Reached
+            Bangalore right on time!</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">R</div>
+            <div>
+              <h4 class="testimonial-name">Rahul Nambiar</h4>
+              <span class="testimonial-role">Frequent Traveler</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <span class="material-symbols-outlined testimonial-quote-mark">format_quote</span>
+          <div class="testimonial-stars">
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star</span>
+            <span class="material-symbols-outlined icon-filled">star_half</span>
+          </div>
+          <p class="testimonial-text">Love the new AC Sleeper buses. Very comfortable bedding and smooth driving
+            throughout the trip.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">S</div>
+            <div>
+              <h4 class="testimonial-name">Sneha Ramesh</h4>
+              <span class="testimonial-role">Tourist</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div class="kasavu-rule"></div>
+
+  <div class="marquee-container">
+    <div class="marquee-content">
+      <div class="marquee-item"><span class="material-symbols-outlined">directions_bus</span> Premium AC Sleeper Buses
+        Now Available</div>
+      <div class="marquee-item"><span class="material-symbols-outlined">star</span> 10% Off on First Booking</div>
+      <div class="marquee-item"><span class="material-symbols-outlined">map</span> Explore God's Own Country with KSRTC
+      </div>
+      <div class="marquee-item"><span class="material-symbols-outlined">verified</span> Safe, Clean, and On-Time
+        Journeys</div>
+      <!-- Duplicate for infinite scroll illusion -->
+      <div class="marquee-item"><span class="material-symbols-outlined">directions_bus</span> Premium AC Sleeper Buses
+        Now Available</div>
+      <div class="marquee-item"><span class="material-symbols-outlined">star</span> 10% Off on First Booking</div>
+      <div class="marquee-item"><span class="material-symbols-outlined">map</span> Explore God's Own Country with KSRTC
+      </div>
+      <div class="marquee-item"><span class="material-symbols-outlined">verified</span> Safe, Clean, and On-Time
+        Journeys</div>
+    </div>
   </div>
 
-  <footer class="site-footer">EnteKSRTC Basic &mdash; Educational project, no real payments involved.</footer>
+  <footer class="modern-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-text">
+          <span class="brand-title">Ente KSRTC</span>
+          <span class="brand-tag">Premium Journey</span>
+        </div>
+        <p>Experience the pinnacle of mobility across God's Own Country. We connect communities, empower travelers, and
+          deliver cinematic journeys with unparalleled comfort and safety.</p>
+      </div>
+      <div class="footer-links">
+        <div class="link-column">
+          <h3>Explore</h3>
+          <a href="buses.html">Routes</a>
+          <a href="#">Fleet</a>
+          <a href="#">Offers</a>
+        </div>
+        <div class="link-column">
+          <h3>Support</h3>
+          <a href="#">Help Center</a>
+          <a href="#">Contact</a>
+          <a href="#">Grievances</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Kerala State Road Transport Corporation. Educational Project.</p>
+    </div>
+  </footer>
 
+  <!-- City Auto-Complete -->
+  <datalist id="citiesList"></datalist>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navbar = document.getElementById('navbar');
+    if (navToggle && navbar) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navbar.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+        navToggle.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
+      });
+    }
+    // From/To swap
+    const swapBtn = document.querySelector('.swap-btn');
+    if (swapBtn) {
+      swapBtn.addEventListener('click', () => {
+        const from = document.getElementById('searchFrom');
+        const to = document.getElementById('searchTo');
+        [from.value, to.value] = [to.value, from.value];
+      });
+    }
+  </script>
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/buses.js"></script>
 </body>
+
 </html>

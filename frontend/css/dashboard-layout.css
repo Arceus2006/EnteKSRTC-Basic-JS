@@ -1,0 +1,560 @@
+/* ============================================================
+   Dashboard Layout (Sidebar - Light Mode)
+   ============================================================ */
+
+.dashboard-app-wrapper {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  background-color: var(--light);
+}
+
+/* ---------- Sidebar ---------- */
+.dashboard-sidebar {
+  background-color: var(--white);
+  border-right: 1px solid var(--gray-border);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.sidebar-brand .material-symbols-outlined {
+  font-size: 2.2rem;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.brand-text-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--dark);
+  letter-spacing: -0.5px;
+}
+
+.brand-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-profile {
+  background: var(--light);
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sidebar-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-profile-info h4 {
+  font-size: 1rem;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.sidebar-profile-info span {
+  font-size: 0.75rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.btn-upgrade {
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(11, 110, 79, 0.2);
+}
+
+.btn-upgrade:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav-item .material-symbols-outlined {
+  font-size: 1.3rem;
+  color: var(--gray);
+  transition: color 0.2s ease;
+}
+
+.sidebar-nav-item:hover {
+  background: var(--light);
+}
+
+.sidebar-nav-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.sidebar-nav-item.active .material-symbols-outlined {
+  color: var(--primary);
+}
+
+/* ---------- Main Content ---------- */
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ---------- Topbar ---------- */
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 48px;
+  background: transparent;
+}
+
+.topbar-links {
+  display: flex;
+  gap: 32px;
+}
+
+.topbar-link {
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.topbar-link:hover, .topbar-link.active {
+  color: var(--primary);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.role-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.role-badge span.role-name {
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.topbar-icon {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.topbar-icon:hover {
+  background: var(--light);
+  color: var(--dark);
+}
+
+.topbar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ---------- Dashboard Content Area ---------- */
+.dashboard-content-area {
+  padding: 0 48px 48px;
+  flex: 1;
+}
+
+/* ---------- Hero Section ---------- */
+.dashboard-hero-block {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 24px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  margin-bottom: 40px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.dashboard-hero-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.hero-content-inner {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+}
+
+.hero-content-inner h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.hero-content-inner h1 span {
+  color: #2de0a5; /* High contrast green for dark background */
+}
+
+.hero-content-inner p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Inline Search Form */
+.dashboard-inline-search {
+  position: absolute;
+  bottom: -24px;
+  left: 48px;
+  right: 48px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+  border: 1px solid var(--gray-border);
+}
+
+.search-field-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--light);
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.search-field-box:focus-within {
+  border-color: var(--primary);
+  background: var(--white);
+}
+
+.search-field-box .material-symbols-outlined {
+  color: var(--primary);
+}
+
+.search-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input-group label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.search-input-group input {
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark);
+  outline: none;
+  padding: 4px 0 0;
+  width: 100%;
+}
+
+.swap-btn {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.swap-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-inline-search {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 0 32px;
+  height: 56px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-inline-search:hover {
+  background: var(--primary-hover);
+}
+
+/* ---------- Content Grid ---------- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  font-size: 1.4rem;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.link-view-all {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 24px;
+  margin-top: 56px; /* Offset for the floating search bar */
+}
+
+/* Ticket Widget */
+.widget-ticket {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--gray-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.ticket-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ticket-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ticket-icon .material-symbols-outlined {
+  font-size: 1.8rem;
+}
+
+.ticket-details h3 {
+  font-size: 1.2rem;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.ticket-details p {
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.ticket-seat {
+  background: var(--light);
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.ticket-seat span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--gray);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.ticket-seat strong {
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* Stat Widget */
+.widget-stat {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--gray-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-stat .material-symbols-outlined {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.widget-stat h3 {
+  font-size: 2rem;
+  color: var(--dark);
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.widget-stat p {
+  font-size: 0.75rem;
+  color: var(--gray);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.widget-cta-overlay {
+  position: absolute;
+  bottom: 0; right: 0;
+  background: var(--primary);
+  color: var(--white);
+  padding: 8px 16px;
+  border-top-left-radius: 16px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  opacity: 0;
+  transform: translate(100%, 100%);
+  transition: all 0.3s ease;
+}
+
+.widget-stat:hover .widget-cta-overlay {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .dashboard-app-wrapper {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-sidebar {
+    display: none; /* In a real app, this would be a sliding drawer triggered by a hamburger menu */
+  }
+  
+  .dashboard-topbar, .dashboard-content-area {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  
+  .dashboard-widgets {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-inline-search {
+    flex-direction: column;
+    position: relative;
+    bottom: 0; left: 0; right: 0;
+    margin-top: -24px;
+    margin-bottom: 40px;
+    z-index: 2;
+  }
+  
+  .swap-btn {
+    transform: rotate(90deg);
+  }
+  
+  .btn-inline-search {
+    width: 100%;
+  }
+}

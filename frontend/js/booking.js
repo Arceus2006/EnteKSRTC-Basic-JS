@@ -13,46 +13,41 @@ let currentBusId = null;
 let currentFare = "";
 let bookedSeats = []; // Seats already taken, loaded from the API if available.
 
-function buildSeatId(row, col) {
-  return `${row}${col}`;
-}
-
 function renderSeatMap() {
   const seatMap = document.getElementById("seatMap");
   if (!seatMap) return;
 
   seatMap.innerHTML = ""; // Clear before rebuilding.
 
-  // Loop through rows/columns to create each seat button.
-  SEAT_ROWS.forEach(function (row) {
+  const layoutData = typeof generateSeatLayoutData === "function" 
+    ? generateSeatLayoutData() 
+    : []; // Fallback if missing
+
+  layoutData.forEach(function (rowObj) {
     const rowEl = document.createElement("div");
     rowEl.className = "seat-row";
 
-    SEAT_COLS.forEach(function (col) {
-      const seatId = buildSeatId(row, col);
-      const seatBtn = document.createElement("button");
-      seatBtn.type = "button";
-      seatBtn.className = "seat";
-      seatBtn.textContent = seatId;
-      seatBtn.setAttribute("data-seat-id", seatId);
-
-      if (bookedSeats.includes(seatId)) {
-        seatBtn.classList.add("seat-booked");
-        seatBtn.disabled = true;
-      } else {
-        seatBtn.addEventListener("click", function () {
-          selectSeat(seatId, seatBtn);
-        });
-      }
-
-      rowEl.appendChild(seatBtn);
-
-      // Add an aisle gap after the 2nd seat in each row, like a
-      // real bus (2 seats, aisle, 2 seats).
-      if (col === 2) {
+    rowObj.seats.forEach(function (seatInfo) {
+      if (seatInfo.isAisle) {
         const aisle = document.createElement("div");
         aisle.className = "seat-aisle";
         rowEl.appendChild(aisle);
+      } else {
+        const seatBtn = document.createElement("button");
+        seatBtn.type = "button";
+        seatBtn.className = "seat";
+        seatBtn.textContent = seatInfo.seatLabel;
+        seatBtn.setAttribute("data-seat-id", seatInfo.seatLabel);
+
+        if (bookedSeats.includes(seatInfo.seatLabel)) {
+          seatBtn.classList.add("seat-booked");
+          seatBtn.disabled = true;
+        } else {
+          seatBtn.addEventListener("click", function () {
+            selectSeat(seatInfo.seatLabel, seatBtn);
+          });
+        }
+        rowEl.appendChild(seatBtn);
       }
     });
 

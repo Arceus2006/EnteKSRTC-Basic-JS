@@ -66,44 +66,91 @@ function requireLogin() {
  */
 function updateNavForAuth() {
   const navAuthLink = document.getElementById("navAuthLink");
+  
+  // Mobile Nav Toggle setup
+  const navbar = document.getElementById("navbar");
+  const navContainer = document.querySelector(".navbar-container");
+  if (navbar && navContainer && !document.querySelector(".nav-toggle")) {
+    const toggleBtn = document.createElement("button");
+    toggleBtn.className = "nav-toggle";
+    toggleBtn.innerHTML = '<span class="material-symbols-outlined">menu</span>';
+    toggleBtn.addEventListener("click", () => {
+      navbar.classList.toggle("nav-open");
+      toggleBtn.innerHTML = navbar.classList.contains("nav-open") 
+        ? '<span class="material-symbols-outlined">close</span>' 
+        : '<span class="material-symbols-outlined">menu</span>';
+    });
+    // Insert after brand
+    navContainer.insertBefore(toggleBtn, navContainer.children[1]);
+  }
+
   if (!navAuthLink) return;
+
+  // Dynamically render relevant nav links
+  const navLinksContainer = document.querySelector(".nav-links");
+  if (navLinksContainer) {
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    
+    // Always show Home, Contact, Kerala Tourism
+    let linksHTML = `
+      <a href="index.html" class="nav-item ${currentPath === 'index.html' ? 'active' : ''}">Home</a>
+      <a href="#" class="nav-item">Contact</a>
+      <a href="#" class="nav-item">Kerala Tourism</a>
+    `;
+
+    // Only inject Dashboard and Bookings if logged in
+    if (isLoggedIn()) {
+      linksHTML = `
+        <a href="index.html" class="nav-item ${currentPath === 'index.html' ? 'active' : ''}">Home</a>
+        <a href="dashboard.html" class="nav-item ${currentPath === 'dashboard.html' ? 'active' : ''}">Dashboard</a>
+        <a href="bookings.html" class="nav-item ${currentPath === 'bookings.html' ? 'active' : ''}">Bookings</a>
+        <a href="buses.html" class="nav-item ${currentPath === 'buses.html' ? 'active' : ''}">Routes</a>
+      `;
+    }
+    
+    // We only update if the container doesn't already have exactly what we want,
+    // to avoid flickering or breaking existing event listeners if not needed.
+    // For a simple app, re-rendering is fine.
+    navLinksContainer.innerHTML = linksHTML;
+  }
 
   if (isLoggedIn()) {
     const user = getCurrentUser();
-    const displayName = user && user.name ? user.name : "Account";
-    navAuthLink.textContent = `Logout (${displayName})`;
-    navAuthLink.setAttribute("href", "#");
-    navAuthLink.addEventListener("click", function (event) {
-      event.preventDefault();
+    navAuthLink.textContent = `Logout (${user ? user.name : "User"})`;
+    navAuthLink.onclick = (e) => {
+      e.preventDefault();
       logout();
-    });
+    };
   } else {
     navAuthLink.textContent = "Login / Register";
-    navAuthLink.setAttribute("href", "login.html");
+    navAuthLink.onclick = (e) => {
+      e.preventDefault();
+      window.location.href = "login.html";
+    };
   }
 }
 
-// Run on every page load.
+// Call on every page load
 document.addEventListener("DOMContentLoaded", updateNavForAuth);
 
-/* ---------- Simple validation helpers ---------- */
-
-function isValidEmail(email) {
-  // Simple, readable email pattern - good enough for client-side
-  // validation (the backend should still validate again).
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email);
-}
+/* ---------- Generic form message helper ---------- */
 
 function showFormMessage(elementId, message, type) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  el.textContent = message;
-  el.classList.remove("form-message-success", "form-message-error");
-  el.classList.add(
-    type === "success" ? "form-message-success" : "form-message-error"
-  );
-  el.classList.remove("hidden");
+  const toast = document.getElementById(elementId);
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.className = "form-message"; // Reset
+  toast.classList.add(type); // 'success' or 'error'
+  toast.classList.remove("hidden");
+  
+  // Also add 'show' for the animation if using standard toast styles
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
 }
 
 /* ---------- register.html form handling ---------- */
@@ -118,37 +165,34 @@ function initRegisterForm() {
     const name = document.getElementById("regName").value.trim();
     const email = document.getElementById("regEmail").value.trim();
     const password = document.getElementById("regPassword").value;
-    const confirmPassword = document.getElementById("regConfirmPassword").value;
 
     // ----- Client-side validation -----
-    if (!name || !email || !password || !confirmPassword) {
-      showFormMessage("registerMessage", "Please fill in all fields.", "error");
+    if (!name || !email || !password) {
+      showFormMessage("regMessage", "Please fill in all mandatory fields.", "error");
       return;
     }
 
     if (!isValidEmail(email)) {
-      showFormMessage("registerMessage", "Please enter a valid email address.", "error");
+      showFormMessage("regMessage", "Please enter a valid email address.", "error");
       return;
     }
 
     if (password.length < 6) {
-      showFormMessage("registerMessage", "Password must be at least 6 characters.", "error");
+      showFormMessage("regMessage", "Password must be at least 6 characters.", "error");
       return;
     }
 
-    if (password !== confirmPassword) {
-      showFormMessage("registerMessage", "Passwords do not match.", "error");
-      return;
+    const submitBtn = document.getElementById("regSubmitBtn");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const spanEl = submitBtn.querySelector('span');
+      if (spanEl) spanEl.textContent = "Creating...";
     }
-
-    const submitBtn = document.getElementById("registerSubmitBtn");
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Creating account...";
 
     try {
       await register(name, email, password);
       showFormMessage(
-        "registerMessage",
+        "regMessage",
         "Account created successfully! Redirecting to login...",
         "success"
       );
@@ -156,10 +200,13 @@ function initRegisterForm() {
         window.location.href = "login.html";
       }, 1200);
     } catch (error) {
-      showFormMessage("registerMessage", error.message, "error");
+      showFormMessage("regMessage", error.message, "error");
     } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Register";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        const spanEl = submitBtn.querySelector('span');
+        if (spanEl) spanEl.textContent = "Create Account";
+      }
     }
   });
 }
@@ -182,8 +229,11 @@ function initLoginForm() {
     }
 
     const submitBtn = document.getElementById("loginSubmitBtn");
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Logging in...";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const spanEl = submitBtn.querySelector('span');
+      if (spanEl) spanEl.textContent = "Logging in...";
+    }
 
     try {
       const data = await loginRequest(email, password);
@@ -196,16 +246,49 @@ function initLoginForm() {
       saveSession(data.token, data.user);
       showFormMessage("loginMessage", "Login successful! Redirecting...", "success");
       setTimeout(function () {
-        window.location.href = "index.html";
+        window.location.href = "dashboard.html"; // Fixed redirect
       }, 800);
     } catch (error) {
       showFormMessage("loginMessage", error.message, "error");
     } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Login";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        const spanEl = submitBtn.querySelector('span');
+        if (spanEl) spanEl.textContent = "Sign In";
+      }
     }
   });
 }
 
 document.addEventListener("DOMContentLoaded", initRegisterForm);
 document.addEventListener("DOMContentLoaded", initLoginForm);
+
+function populateDateSelect(dayId, monthId, yearId, minYear = 1930) {
+  const dayEl = document.getElementById(dayId);
+  const monthEl = document.getElementById(monthId);
+  const yearEl = document.getElementById(yearId);
+  if (!dayEl || !monthEl || !yearEl) return;
+  for (let d = 1; d <= 31; d++) dayEl.add(new Option(String(d).padStart(2, '0'), d));
+  ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    .forEach((m, i) => monthEl.add(new Option(m, i + 1)));
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= minYear; y--) yearEl.add(new Option(y, y));
+}
+
+function wirePasswordToggles() {
+  document.querySelectorAll('.toggle-password').forEach(icon => {
+    icon.addEventListener('click', () => {
+      const input = document.getElementById(icon.dataset.target);
+      if (!input) return;
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      icon.textContent = showing ? 'visibility' : 'visibility_off';
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateDateSelect('dobDay', 'dobMonth', 'dobYear');
+  populateDateSelect('annivDay', 'annivMonth', 'annivYear');
+  wirePasswordToggles();
+});

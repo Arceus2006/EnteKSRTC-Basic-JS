@@ -75,16 +75,28 @@ async function loadDashboard() {
   const statusEl = document.getElementById("dashboardStatus");
   const statsEl = document.getElementById("dashboardStats");
 
-  statusEl.textContent = "Loading your dashboard...";
-  statusEl.className = "status-message status-loading";
-  statsEl.classList.add("hidden");
+  statusEl.className = "hidden";
+  statsEl.classList.remove("hidden");
+  
+  // Set skeletons manually for stats
+  document.getElementById("statTotalBookings").innerHTML = `<div class="skeleton" style="width:40px;height:24px;"></div>`;
+  document.getElementById("statUpcomingCount").innerHTML = `<div class="skeleton" style="width:40px;height:24px;"></div>`;
+  document.getElementById("statTotalSpent").innerHTML = `<div class="skeleton" style="width:60px;height:24px;"></div>`;
+  
+  const nextTripCard = document.getElementById("nextTripCard");
+  if (nextTripCard) {
+    nextTripCard.innerHTML = `
+      <div class="skeleton" style="width:60%;height:20px;margin-bottom:8px"></div>
+      <div class="skeleton" style="width:40%;height:16px;margin-bottom:8px"></div>
+      <div class="skeleton" style="width:50%;height:16px;"></div>
+    `;
+  }
 
   try {
     const bookings = await getMyBookings();
     const list = Array.isArray(bookings) ? bookings : [];
 
-    statusEl.textContent = "";
-    statusEl.className = "";
+    statusEl.className = "hidden";
     statsEl.classList.remove("hidden");
 
     const upcoming = renderStats(list);

@@ -1,0 +1,155 @@
+/* ---------- Ticket Card Styling ---------- */
+.auth-page-wrapper {
+  padding: 120px 24px 60px; /* Padding to clear fixed navbar at top */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Avoid center to prevent top cutoff on tall screens */
+  background: var(--light);
+}
+
+.ticket-card {
+  display: flex;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.ticket-stub {
+  background: var(--primary);
+  color: var(--white);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  text-align: center;
+}
+
+.stub-mark {
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.stub-route-dots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 40px 0;
+}
+
+.stub-route-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+}
+
+.stub-route-dots .dot.active {
+  background: var(--white);
+  box-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.stub-bus-icon {
+  font-size: 2rem;
+  margin: 16px 0;
+}
+
+.stub-code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.ticket-divider {
+  width: 0;
+  border-left: 2px dashed rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.ticket-divider::before,
+.ticket-divider::after {
+  content: '';
+  position: absolute;
+  left: -15px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0,0,0,0.5); /* Semi-transparent to match the overlay */
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.ticket-divider::before {
+  top: -15px;
+}
+
+.ticket-divider::after {
+  bottom: -15px;
+}
+
+.ticket-form-panel {
+  padding: 48px;
+  flex: 1;
+}
+
+.ticket-cta {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .ticket-card {
+    flex-direction: column;
+    max-width: 500px;
+  }
+  
+  .ticket-stub {
+    width: 100%;
+    padding: 24px;
+    flex-direction: row;
+  }
+  
+  .stub-route-dots {
+    flex-direction: row;
+    margin: 0;
+  }
+  
+  .ticket-divider {
+    width: 100%;
+    height: 0;
+    border-left: none;
+    border-top: 2px dashed rgba(0,0,0,0.1);
+  }
+  
+  .ticket-divider::before,
+  .ticket-divider::after {
+    left: auto;
+    top: -15px;
+  }
+  
+  .ticket-divider::before {
+    left: -15px;
+  }
+  
+  .ticket-divider::after {
+    right: -15px;
+  }
+  
+  .ticket-form-panel {
+    padding: 24px;
+  }
+}

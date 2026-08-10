@@ -3,58 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnteKSRTC Basic - Dashboard</title>
+  <title>Dashboard - Ente KSRTC Premium</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard-layout.css" />
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="navbar-brand">🚌 EnteKSRTC</div>
-    <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="buses.html">Search Buses</a>
-      <a href="bookings.html">My Bookings</a>
-      <a href="login.html" id="navAuthLink">Login / Register</a>
-    </div>
-  </nav>
-
-  <div class="container">
-    <h2 class="section-heading" id="dashboardGreeting">Welcome back</h2>
-
-    <div id="dashboardStatus" class="status-message hidden"></div>
-
-    <div class="dashboard-stats" id="dashboardStats">
-      <div class="stat-card">
-        <p class="stat-value" id="statTotalBookings">-</p>
-        <p class="stat-label">Total Bookings</p>
+  <div class="dashboard-app-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <span class="material-symbols-outlined">directions_bus</span>
+        <div class="brand-text-vertical">
+          <span class="brand-title">Ente KSRTC</span>
+          <span class="brand-tag">Elite Travel</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <p class="stat-value" id="statUpcomingCount">-</p>
-        <p class="stat-label">Upcoming Trips</p>
+
+      <div class="sidebar-profile">
+        <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=150&auto=format&fit=crop" alt="User Avatar" class="sidebar-avatar">
+        <div class="sidebar-profile-info">
+          <h4 id="dashboardGreeting">Welcome, Traveler</h4>
+          <span>ELITE GOLD MEMBER</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <p class="stat-value" id="statTotalSpent">-</p>
-        <p class="stat-label">Total Fare Paid</p>
-      </div>
-    </div>
 
-    <h3 class="section-heading">Your Next Trip</h3>
-    <div id="nextTripCard" class="booking-summary">
-      <p>Loading...</p>
-    </div>
+      <button class="btn-upgrade">Upgrade Seat</button>
 
-    <h3 class="section-heading">Quick Actions</h3>
-    <div class="dashboard-actions">
-      <a href="buses.html" class="btn btn-primary">Search Buses</a>
-      <a href="bookings.html" class="btn btn-secondary">View All Bookings</a>
-    </div>
-  </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-nav-item active">
+          <span class="material-symbols-outlined">grid_view</span>
+          Home
+        </a>
+        <a href="bookings.html" class="sidebar-nav-item">
+          <span class="material-symbols-outlined">confirmation_number</span>
+          Bookings
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="material-symbols-outlined">star</span>
+          Loyalty
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="material-symbols-outlined">support_agent</span>
+          Support
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="material-symbols-outlined">local_cafe</span>
+          Amenities
+        </a>
+      </nav>
+    </aside>
 
-  <footer class="site-footer">EnteKSRTC Basic &mdash; Educational project, no real payments involved.</footer>
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <!-- Topbar -->
+      <header class="dashboard-topbar">
+        <nav class="topbar-links">
+          <a href="index.html" class="topbar-link">Discover</a>
+          <a href="buses.html" class="topbar-link">Routes</a>
+          <a href="#" class="topbar-link">Experience</a>
+        </nav>
+        
+        <div class="topbar-actions">
+          <div class="role-badge">
+            ROLE: <span class="role-name">Passenger</span>
+          </div>
+          <button class="topbar-icon" aria-label="Notifications">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button class="topbar-icon" aria-label="Settings">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <button class="topbar-icon" aria-label="Logout" onclick="window.location.href='login.html'">
+            <span class="material-symbols-outlined">logout</span>
+          </button>
+          <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=150&auto=format&fit=crop" alt="Profile" class="topbar-avatar">
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content-area">
+        
+        <div id="dashboardStatus" class="status-message hidden" style="margin-bottom: 24px;"></div>
+
+        <!-- Hero Section -->
+        <section class="dashboard-hero-block" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop');">
+          <div class="hero-content-inner">
+            <h1 id="dashboardWelcomeLarge">Welcome back,<br><span>Traveler</span></h1>
+            <p>Your next luxury journey across the cinematic landscapes.</p>
+          </div>
+
+          <!-- Inline Search Form -->
+          <form class="dashboard-inline-search" action="buses.html">
+            <div class="search-field-box">
+              <span class="material-symbols-outlined">location_on</span>
+              <div class="search-input-group">
+                <label>From</label>
+                <input type="text" value="Thiruvananthapuram" readonly>
+              </div>
+            </div>
+            
+            <button type="button" class="swap-btn"><span class="material-symbols-outlined">sync_alt</span></button>
+            
+            <div class="search-field-box">
+              <span class="material-symbols-outlined">location_on</span>
+              <div class="search-input-group">
+                <label>To</label>
+                <input type="text" value="Ernakulam" readonly>
+              </div>
+            </div>
+            
+            <div class="search-field-box">
+              <span class="material-symbols-outlined">calendar_today</span>
+              <div class="search-input-group">
+                <label>Date</label>
+                <input type="text" value="28 Jul, 2026" readonly>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn-inline-search">Search Luxury Buses</button>
+          </form>
+        </section>
+
+        <!-- Widgets Grid -->
+        <div class="dashboard-widgets">
+          
+          <!-- Upcoming Journey -->
+          <div class="widget-section" style="grid-column: span 1;">
+            <div class="section-header">
+              <h2>Upcoming Journey</h2>
+              <a href="#" class="link-view-all">View Ticket</a>
+            </div>
+            
+            <div id="nextTripCard" class="widget-ticket">
+              <!-- JS overrides this, but we leave structure for fallback -->
+              <div class="ticket-left">
+                <div class="ticket-icon">
+                  <span class="material-symbols-outlined">directions_bus</span>
+                </div>
+                <div class="ticket-details">
+                  <h3>K-Swift Gaja</h3>
+                  <p>Volvo 9600 Multi-Axle Sleeper</p>
+                </div>
+              </div>
+              <div class="ticket-seat">
+                <span>SEAT</span>
+                <strong>L4</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="widget-section">
+            <div class="section-header" style="opacity:0;"><h2>.</h2></div> <!-- spacer -->
+            <div class="widget-stat">
+              <span class="material-symbols-outlined">star</span>
+              <h3 id="statLoyaltyPoints">1,200</h3>
+              <p>LOYALTY POINTS</p>
+              <a href="#" class="widget-cta-overlay">Redeem</a>
+            </div>
+          </div>
+
+          <div class="widget-section">
+            <div class="section-header" style="opacity:0;"><h2>.</h2></div> <!-- spacer -->
+            <div class="widget-stat">
+              <span class="material-symbols-outlined">directions_bus</span>
+              <h3 id="statTotalBookings">24</h3>
+              <p>TOTAL TRIPS</p>
+              <a href="bookings.html" class="widget-cta-overlay">View All</a>
+            </div>
+          </div>
+
+        </div> <!-- /.dashboard-widgets -->
+
+      </div> <!-- /.dashboard-content-area -->
+    </main>
+  </div> <!-- /.dashboard-app-wrapper -->
 
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script>
+    // Minimal script to wire up the dashboard greeting
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = getCurrentUser();
+      if (user && user.name) {
+        document.getElementById("dashboardGreeting").textContent = `Welcome, ${user.name}`;
+        const welcomeLarge = document.getElementById("dashboardWelcomeLarge");
+        if(welcomeLarge) welcomeLarge.innerHTML = `Welcome back,<br><span>${user.name}</span>`;
+      }
+    });
+  </script>
 </body>
 </html>
