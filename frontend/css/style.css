@@ -2083,7 +2083,7 @@ a {
   width: 24px;
 }
 
-body.dark-theme {
+:root.dark-theme, body.dark-theme {
   /* Legacy/Compatibility Custom Properties */
   --light:       #0f1a14;
   --dark:        #e8f0ec;
@@ -2127,7 +2127,9 @@ body.dark-theme {
 
   --md-sys-color-outline: #8fa898;
   --md-sys-color-outline-variant: #2a3d34;
+}
 
+body.dark-theme {
   background-color: #0f1a14;
   color: #e8f0ec;
 }
