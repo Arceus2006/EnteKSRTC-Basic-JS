@@ -169,38 +169,38 @@
 }
 
 /* ---------- Dark Mode Support ---------- */
-body.dark-theme .auth-page-wrapper {
+.dark-theme .auth-page-wrapper {
   background: var(--light, #0f1a14);
 }
 
-body.dark-theme .ticket-card {
+.dark-theme .ticket-card {
   background: #16241c;
   border: 1px solid #2a3d34;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-body.dark-theme .ticket-form-panel h2,
-body.dark-theme .ticket-form-panel label,
-body.dark-theme .auth-footer {
+.dark-theme .ticket-form-panel h2,
+.dark-theme .ticket-form-panel label,
+.dark-theme .auth-footer {
   color: #e8f0ec;
 }
 
-body.dark-theme .btn-social {
+.dark-theme .btn-social {
   background: #101d16;
   border-color: #2a3d34;
   color: #e8f0ec;
 }
 
-body.dark-theme .btn-social:hover {
+.dark-theme .btn-social:hover {
   background: #1a2a20;
 }
 
-body.dark-theme .ticket-divider {
+.dark-theme .ticket-divider {
   border-color: #2a3d34;
 }
 
-body.dark-theme .ticket-divider::before,
-body.dark-theme .ticket-divider::after {
+.dark-theme .ticket-divider::before,
+.dark-theme .ticket-divider::after {
   background: #0f1a14;
 }
 
@@ -411,62 +411,62 @@ body.dark-theme .ticket-divider::after {
 }
 
 /* ---------- Dark Mode Overrides for Auth Forms ---------- */
-body.dark-theme .auth-header h2 {
+.dark-theme .auth-header h2 {
   color: #e8f0ec;
 }
 
-body.dark-theme .auth-form .input-field-wrapper {
+.dark-theme .auth-form .input-field-wrapper {
   border-bottom-color: #2a3d34;
 }
 
-body.dark-theme .auth-form .input-field-wrapper:focus-within {
+.dark-theme .auth-form .input-field-wrapper:focus-within {
   border-color: #3dba84;
 }
 
-body.dark-theme .auth-form .input-field {
+.dark-theme .auth-form .input-field {
   color: #e8f0ec;
 }
 
-body.dark-theme .forgot-password {
+.dark-theme .forgot-password {
   color: #e8f0ec;
   border-bottom-color: #3dba84;
 }
 
-body.dark-theme .btn-search.ticket-cta {
+.dark-theme .btn-search.ticket-cta {
   background: #1a2720;
   border: 1px solid #2a3d34;
   color: #e8f0ec;
 }
 
-body.dark-theme .btn-search.ticket-cta:hover {
+.dark-theme .btn-search.ticket-cta:hover {
   background: #3dba84;
   color: #003825;
 }
 
-body.dark-theme .auth-divider::before,
-body.dark-theme .auth-divider::after {
+.dark-theme .auth-divider::before,
+.dark-theme .auth-divider::after {
   border-bottom-color: #2a3d34;
 }
 
-body.dark-theme .form-section-title {
+.dark-theme .form-section-title {
   color: #e8f0ec;
   border-bottom-color: #2a3d34;
 }
 
-body.dark-theme .select-field {
+.dark-theme .select-field {
   color: #e8f0ec;
 }
 
-body.dark-theme .date-dropdowns select {
+.dark-theme .date-dropdowns select {
   border-color: #2a3d34;
   color: #e8f0ec;
 }
 
-body.dark-theme .date-dropdowns select:focus {
+.dark-theme .date-dropdowns select:focus {
   border-color: #3dba84;
 }
 
-body.dark-theme .ticket-form-panel::-webkit-scrollbar-thumb {
+.dark-theme .ticket-form-panel::-webkit-scrollbar-thumb {
   background: #2a3d34;
 }
 
