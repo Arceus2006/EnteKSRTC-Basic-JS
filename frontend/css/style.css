@@ -2083,8 +2083,8 @@ a {
   width: 24px;
 }
 
-/* Dark Mode Theme Variables Override */
 body.dark-theme {
+  /* Legacy/Compatibility Custom Properties */
   --light:       #0f1a14;
   --dark:        #e8f0ec;
   --white:       #1a2720;
@@ -2098,6 +2098,36 @@ body.dark-theme {
   --secondary-light: #2e1e1c;
   --glass-bg:    rgba(15, 26, 20, 0.88);
   --glass-border:rgba(255, 255, 255, 0.08);
+
+  /* Material Design 3 (M3) Dark Theme Color Overrides */
+  --md-sys-color-primary: #3dba84;
+  --md-sys-color-on-primary: #003825;
+  --md-sys-color-primary-container: #1a3328;
+  --md-sys-color-on-primary-container: #bdf6d5;
+
+  --md-sys-color-secondary: #f4d068;
+  --md-sys-color-on-secondary: #3b2f00;
+  --md-sys-color-secondary-container: #554500;
+  --md-sys-color-on-secondary-container: #ffdf79;
+
+  --md-sys-color-tertiary: #ffb4a9;
+  --md-sys-color-on-tertiary: #690005;
+  --md-sys-color-tertiary-container: #2e1e1c;
+
+  --md-sys-color-surface: #0f1a14;
+  --md-sys-color-on-surface: #e8f0ec;
+  --md-sys-color-surface-variant: #2e3e34;
+  --md-sys-color-on-surface-variant: #8fa898;
+
+  --md-sys-color-surface-container-lowest: #0a110d;
+  --md-sys-color-surface-container-low: #13221b;
+  --md-sys-color-surface-container: #182a21;
+  --md-sys-color-surface-container-high: #1d3126;
+  --md-sys-color-surface-container-highest: #22372c;
+
+  --md-sys-color-outline: #8fa898;
+  --md-sys-color-outline-variant: #2a3d34;
+
   background-color: #0f1a14;
   color: #e8f0ec;
 }
