@@ -40,6 +40,11 @@ frontend/
 ├── dashboard.html        # User profile dashboard, stats & quick actions
 ├── login.html            # Boarding pass style sign-in pass card
 ├── register.html         # Boarding pass style account creation pass card
+├── images/
+│   ├── hero_bus.png      # KSRTC luxury coach banner image
+│   ├── munnar.png        # Munnar emerald hills destination image
+│   ├── kochi.png         # Fort Kochi backwaters sunset image
+│   └── alleppey.png      # Alleppey houseboat backwaters image
 ├── css/
 │   ├── style.css         # M3 tokens, color roles, component classes & global themes
 │   ├── dashboard-layout.css # Layouts and dark theme styles for dashboard widgets
