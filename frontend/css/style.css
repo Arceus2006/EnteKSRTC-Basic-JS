@@ -4,23 +4,73 @@
    ============================================================ */
 
 :root {
-  /* KSRTC Premium Color Palette */
-  --primary: #0b6e4f;
+  /* ============================================================
+     Material Design 3 (M3) Global Tokens & Color Roles
+     ============================================================ */
+
+  /* Primary Color Role (KSRTC Green) */
+  --md-sys-color-primary: #0b6e4f;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #dceee4;
+  --md-sys-color-on-primary-container: #042d1f;
+
+  /* Secondary Color Role (Kasavu Gold) */
+  --md-sys-color-secondary: #d4af37;
+  --md-sys-color-on-secondary: #1a1708;
+  --md-sys-color-secondary-container: #f7eed2;
+  --md-sys-color-on-secondary-container: #3a2e04;
+
+  /* Tertiary Color Role (Accent Coral) */
+  --md-sys-color-tertiary: #d1483c;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #fbeceb;
+
+  /* Surface & Container Scale */
+  --md-sys-color-surface: #f6f8f7;
+  --md-sys-color-on-surface: #1f2a24;
+  --md-sys-color-surface-variant: #e1e9e4;
+  --md-sys-color-on-surface-variant: #414e47;
+
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f1f5f3;
+  --md-sys-color-surface-container: #eaefe9;
+  --md-sys-color-surface-container-high: #e4eae3;
+  --md-sys-color-surface-container-highest: #dde4dd;
+
+  /* Outline Scale */
+  --md-sys-color-outline: #718077;
+  --md-sys-color-outline-variant: #c0ccc5;
+
+  /* M3 Shape Radii Scale */
+  --md-shape-corner-xs: 4px;
+  --md-shape-corner-sm: 8px;
+  --md-shape-corner-md: 12px;
+  --md-shape-corner-lg: 16px;
+  --md-shape-corner-xl: 28px;
+  --md-shape-corner-full: 9999px;
+
+  /* M3 Motion & Physics */
+  --md-sys-motion-easing-spring: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-duration-short: 0.2s;
+  --md-sys-motion-duration-medium: 0.35s;
+
+  /* Legacy Backward-Compatibility Aliases */
+  --primary: var(--md-sys-color-primary);
   --primary-hover: #08553d;
-  --primary-light: #dceee4;
-  --secondary: #d1483c;
-  --secondary-hover: #b13a30;
-  --secondary-light: #fbeceb;
-  --dark: #1f2a24;
-  --light: #f6f8f7;
-  --gray: #5c6b63;
-  --gray-light: #dfe6e2;
-  --gray-border: #dfe6e2;
+  --primary-light: var(--md-sys-color-primary-container);
+  --secondary: var(--md-sys-color-secondary);
+  --secondary-hover: #b89628;
+  --secondary-light: var(--md-sys-color-secondary-container);
+  --dark: var(--md-sys-color-on-surface);
+  --light: var(--md-sys-color-surface);
+  --gray: var(--md-sys-color-outline);
+  --gray-light: var(--md-sys-color-surface-container-low);
+  --gray-border: var(--md-sys-color-outline-variant);
   --white: #ffffff;
 
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.4);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -52,7 +102,58 @@ a {
   font-variation-settings: 'FILL' 1;
 }
 
-/* ---------- Floating Navbar ---------- */
+/* ---------- Material Design 3 (M3) Component Classes ---------- */
+
+.m3-card {
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border-radius: var(--md-shape-corner-xl) !important;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring),
+              box-shadow var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring),
+              background-color var(--md-sys-motion-duration-short) ease,
+              border-color var(--md-sys-motion-duration-short) ease;
+}
+
+.m3-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+  background-color: var(--md-sys-color-surface-container-low);
+}
+
+.m3-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--md-sys-color-primary) !important;
+  color: var(--md-sys-color-on-primary) !important;
+  border: none !important;
+  border-radius: var(--md-shape-corner-full) !important;
+  padding: 14px 28px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(11, 110, 79, 0.25);
+  transition: transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-spring),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-spring),
+              background-color var(--md-sys-motion-duration-short) ease;
+  text-decoration: none;
+}
+
+.m3-btn-filled:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(11, 110, 79, 0.35);
+}
+
+.m3-btn-filled:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 4px rgba(11, 110, 79, 0.2);
+}
+
+/* ---------- Floating Navbar (M3 Pill Shape) ---------- */
 .modern-navbar {
   position: fixed;
   top: 20px;
@@ -64,11 +165,11 @@ a {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  border-radius: 100px;
+  border-radius: var(--md-shape-corner-full);
   z-index: 1000;
   box-shadow: var(--glass-shadow);
   padding: 12px 24px;
-  transition: all 0.4s ease;
+  transition: all var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-spring);
 }
 
 .navbar-container {
@@ -1924,5 +2025,179 @@ a {
     text-align: center;
     gap: 16px;
   }
+  /* ============================================================
+   Google Material 3 Switch Component
+   ============================================================ */
+.md-switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.95rem;
 }
+
+.md-switch {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  appearance: none;
+  background-color: var(--gray-light);
+  border: 2px solid var(--gray);
+  border-radius: 16px;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.md-switch::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--gray);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), 
+              width 0.15s ease, 
+              background-color 0.25s ease;
+}
+
+.md-switch:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.md-switch:checked::before {
+  transform: translateX(20px);
+  background-color: var(--white);
+  width: 20px;
+  height: 20px;
+  top: 2px;
+}
+
+.md-switch:active::before {
+  width: 24px;
+}
+
+/* Dark Mode Theme Variables Override */
+body.dark-theme {
+  --light:       #0f1a14;
+  --dark:        #e8f0ec;
+  --white:       #1a2720;
+  --gray:        #8fa898;
+  --gray-light:  #1e2e27;
+  --gray-border: #2a3d34;
+  --primary:     #3dba84;
+  --primary-hover: #2ea872;
+  --primary-light: #1a3328;
+  --secondary:   #e06b60;
+  --secondary-light: #2e1e1c;
+  --glass-bg:    rgba(15, 26, 20, 0.88);
+  --glass-border:rgba(255, 255, 255, 0.08);
+  background-color: #0f1a14;
+  color: #e8f0ec;
+}
+
+/* Dark mode: card & surface backgrounds */
+body.dark-theme aside,
+body.dark-theme .modern-card,
+body.dark-theme .route-card,
+body.dark-theme .testimonial-card,
+body.dark-theme .widget-ticket,
+body.dark-theme .widget-stat,
+body.dark-theme .booking-widget,
+body.dark-theme .auth-card,
+body.dark-theme #busSearchSummary {
+  background: #1a2720 !important;
+  border-color: #2a3d34 !important;
+  color: #e8f0ec;
+}
+
+/* Dark mode: input fields */
+body.dark-theme .input-field,
+body.dark-theme select.input-field {
+  background: #0f1a14;
+  border-color: #2a3d34;
+  color: #e8f0ec;
+}
+
+/* Dark mode: navbar */
+body.dark-theme .modern-navbar {
+  background: rgba(15, 26, 20, 0.92) !important;
+  border-bottom-color: #2a3d34;
+}
+
+/* Dark mode: footer */
+body.dark-theme .modern-footer {
+  background: #0a130e;
+  border-top-color: #2a3d34;
+}
+
+/* Dark mode: hero overlay — slightly heavier */
+body.dark-theme .internal-hero-overlay,
+body.dark-theme .hero-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.82));
+}
+
+/* Dark mode: section backgrounds */
+body.dark-theme .section,
+body.dark-theme .internal-main-content,
+body.dark-theme .main-content {
+  background: transparent;
+}
+
+/* Dark mode: md-switch icon color */
+body.dark-theme .md-switch-label .material-symbols-outlined {
+  color: var(--primary) !important;
+}
+
+/* Dark mode: body bg-gray-light utility & typography */
+body.dark-theme.bg-gray-light,
+body.dark-theme .bg-gray-light {
+  background-color: #0f1a14 !important;
+}
+
+body.dark-theme .nav-item {
+  color: #8fa898;
+}
+
+body.dark-theme .nav-item:hover,
+body.dark-theme .nav-item.active {
+  color: #3dba84;
+}
+
+body.dark-theme .bus-card,
+body.dark-theme .seat-map-card,
+body.dark-theme .fare-breakdown-card,
+body.dark-theme .filter-card,
+body.dark-theme .booking-item-card,
+body.dark-theme .modern-table-wrapper,
+body.dark-theme .m3-card {
+  background-color: var(--md-sys-color-surface-container-low, #18261e) !important;
+  border-color: var(--md-sys-color-outline-variant, #2a3d34) !important;
+  color: #e8f0ec;
+}
+
+body.dark-theme .m3-card:hover {
+  background-color: var(--md-sys-color-surface-container, #1d2c23) !important;
+}
+
+body.dark-theme .bus-card-title,
+body.dark-theme .bus-card-price,
+body.dark-theme .seat-title,
+body.dark-theme .summary-title,
+body.dark-theme .section-title,
+body.dark-theme .filter-title {
+  color: #e8f0ec !important;
+}
+
+body.dark-theme .kasavu-rule {
+  background: linear-gradient(90deg, transparent, #2a3d34, transparent);
+}
+
+
 

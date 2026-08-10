@@ -8,6 +8,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/dashboard-layout.css" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("entekstc_theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark-theme");
+        document.addEventListener("DOMContentLoaded", () => document.body.classList.add("dark-theme"));
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -30,7 +40,7 @@
         </div>
       </div>
 
-      <button class="btn-upgrade">Upgrade Seat</button>
+      <button class="btn-upgrade m3-btn-filled">Upgrade Seat</button>
 
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="sidebar-nav-item active">
@@ -67,6 +77,10 @@
         </nav>
         
         <div class="topbar-actions">
+          <label class="md-switch-label" title="Toggle Theme">
+            <span class="material-symbols-outlined" style="font-size: 18px; color: var(--gray);">dark_mode</span>
+            <input type="checkbox" id="themeToggleSwitch" class="md-switch">
+          </label>
           <div class="role-badge">
             ROLE: <span class="role-name">Passenger</span>
           </div>
@@ -123,7 +137,7 @@
               </div>
             </div>
             
-            <button type="submit" class="btn-inline-search">Search Luxury Buses</button>
+            <button type="submit" class="btn-inline-search m3-btn-filled">Search Luxury Buses</button>
           </form>
         </section>
 

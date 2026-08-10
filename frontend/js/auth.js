@@ -1,15 +1,12 @@
 /* ============================================================
-   auth.js
-   Everything related to the logged-in state of the user:
-   storing/reading the JWT, checking login status, logging out,
-   and updating the shared navbar. Also wires up the
-   register.html and login.html forms.
+   auth.js (Updated with Theme Switch & Session Logic)
    ============================================================ */
 
 const TOKEN_KEY = "entekstc_token";
 const USER_KEY = "entekstc_user";
+const THEME_KEY = "entekstc_theme";
 
-/* ---------- Basic token/user helpers (used everywhere) ---------- */
+/* ---------- Basic token/user helpers ---------- */
 
 function getToken() {
   return localStorage.getItem(TOKEN_KEY);
@@ -30,8 +27,6 @@ function getCurrentUser() {
 }
 
 function saveSession(token, user) {
-  // We only ever store the token and basic (non-sensitive) user
-  // info - never the password.
   localStorage.setItem(TOKEN_KEY, token);
   if (user) {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -44,35 +39,59 @@ function logout() {
   window.location.href = "index.html";
 }
 
-/**
- * requireLogin()
- * Call this at the top of pages that need an authenticated user
- * (e.g. booking.html, bookings.html). Redirects to login.html if
- * no token is present.
- */
 function requireLogin() {
   if (!isLoggedIn()) {
     window.location.href = "login.html";
   }
 }
 
-/* ---------- Shared navbar login state ---------- */
+/* ---------- Theme Switch Logic ---------- */
 
-/**
- * updateNavForAuth()
- * Every page's navbar has a placeholder link with
- * id="navAuthLink". This swaps it between "Login / Register"
- * and "Logout (Name)" depending on session state.
- */
+function applyTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add("dark-theme");
+    document.documentElement.classList.add("dark-theme");
+    localStorage.setItem(THEME_KEY, "dark");
+  } else {
+    document.body.classList.remove("dark-theme");
+    document.documentElement.classList.remove("dark-theme");
+    localStorage.setItem(THEME_KEY, "light");
+  }
+
+  const switches = document.querySelectorAll("#themeToggleSwitch, .md-switch");
+  switches.forEach((sw) => {
+    sw.checked = isDark;
+  });
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+
+  applyTheme(isDark);
+}
+
+// Global event delegation for theme toggle switches
+document.addEventListener("change", (e) => {
+  if (e.target && (e.target.id === "themeToggleSwitch" || e.target.classList.contains("md-switch"))) {
+    applyTheme(e.target.checked);
+  }
+});
+
+/* ---------- Shared Navbar Login & Theme State ---------- */
+
 function updateNavForAuth() {
   const navAuthLink = document.getElementById("navAuthLink");
   
   // Mobile Nav Toggle setup
   const navbar = document.getElementById("navbar");
   const navContainer = document.querySelector(".navbar-container");
+  
   if (navbar && navContainer && !document.querySelector(".nav-toggle")) {
     const toggleBtn = document.createElement("button");
     toggleBtn.className = "nav-toggle";
+    toggleBtn.setAttribute("aria-label", "Toggle navigation");
     toggleBtn.innerHTML = '<span class="material-symbols-outlined">menu</span>';
     toggleBtn.addEventListener("click", () => {
       navbar.classList.toggle("nav-open");
@@ -80,25 +99,33 @@ function updateNavForAuth() {
         ? '<span class="material-symbols-outlined">close</span>' 
         : '<span class="material-symbols-outlined">menu</span>';
     });
-    // Insert after brand
     navContainer.insertBefore(toggleBtn, navContainer.children[1]);
   }
 
-  if (!navAuthLink) return;
+  // Inject Theme Switch inside navbar/topbar actions if missing
+  const actionsContainer = document.querySelector(".nav-actions") || document.querySelector(".topbar-actions");
+  if (actionsContainer && !document.getElementById("themeToggleSwitch")) {
+    const switchWrapper = document.createElement("label");
+    switchWrapper.className = "md-switch-label";
+    switchWrapper.title = "Toggle Dark Mode";
+    switchWrapper.innerHTML = `
+      <span class="material-symbols-outlined" style="font-size: 18px; color: var(--gray);">dark_mode</span>
+      <input type="checkbox" id="themeToggleSwitch" class="md-switch">
+    `;
+    actionsContainer.insertBefore(switchWrapper, actionsContainer.firstChild);
+  }
 
   // Dynamically render relevant nav links
   const navLinksContainer = document.querySelector(".nav-links");
   if (navLinksContainer) {
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
     
-    // Always show Home, Contact, Kerala Tourism
     let linksHTML = `
       <a href="index.html" class="nav-item ${currentPath === 'index.html' ? 'active' : ''}">Home</a>
-      <a href="#" class="nav-item">Contact</a>
+      <a href="buses.html" class="nav-item ${currentPath === 'buses.html' ? 'active' : ''}">Routes</a>
       <a href="#" class="nav-item">Kerala Tourism</a>
     `;
 
-    // Only inject Dashboard and Bookings if logged in
     if (isLoggedIn()) {
       linksHTML = `
         <a href="index.html" class="nav-item ${currentPath === 'index.html' ? 'active' : ''}">Home</a>
@@ -107,57 +134,57 @@ function updateNavForAuth() {
         <a href="buses.html" class="nav-item ${currentPath === 'buses.html' ? 'active' : ''}">Routes</a>
       `;
     }
-    
-    // We only update if the container doesn't already have exactly what we want,
-    // to avoid flickering or breaking existing event listeners if not needed.
-    // For a simple app, re-rendering is fine.
     navLinksContainer.innerHTML = linksHTML;
   }
 
-  if (isLoggedIn()) {
-    const user = getCurrentUser();
-    navAuthLink.textContent = `Logout (${user ? user.name : "User"})`;
-    navAuthLink.onclick = (e) => {
-      e.preventDefault();
-      logout();
-    };
-  } else {
-    navAuthLink.textContent = "Login / Register";
-    navAuthLink.onclick = (e) => {
-      e.preventDefault();
-      window.location.href = "login.html";
-    };
+  if (navAuthLink) {
+    if (isLoggedIn()) {
+      const user = getCurrentUser();
+      navAuthLink.textContent = `Logout (${user ? user.name : "User"})`;
+      navAuthLink.onclick = (e) => {
+        e.preventDefault();
+        logout();
+      };
+    } else {
+      navAuthLink.textContent = "Login / Register";
+      navAuthLink.onclick = (e) => {
+        e.preventDefault();
+        window.location.href = "login.html";
+      };
+    }
   }
+
+  // Initialize theme state
+  initTheme();
 }
 
-// Call on every page load
-document.addEventListener("DOMContentLoaded", updateNavForAuth);
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", updateNavForAuth);
+} else {
+  updateNavForAuth();
+}
 
-/* ---------- Generic form message helper ---------- */
+/* ---------- Generic Toast Message Helper ---------- */
 
 function showFormMessage(elementId, message, type) {
   const toast = document.getElementById(elementId);
   if (!toast) return;
 
   toast.textContent = message;
-  toast.className = "form-message"; // Reset
-  toast.classList.add(type); // 'success' or 'error'
+  toast.className = "form-message";
+  toast.classList.add(type === "success" ? "form-message-success" : "form-message-error");
   toast.classList.remove("hidden");
-  
-  // Also add 'show' for the animation if using standard toast styles
-  toast.classList.add("show");
 
   setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 400);
-  }, 3000);
+    toast.classList.add("hidden");
+  }, 3500);
 }
 
-/* ---------- register.html form handling ---------- */
+/* ---------- Form Event Listeners ---------- */
 
 function initRegisterForm() {
   const form = document.getElementById("registerForm");
-  if (!form) return; // Not on this page.
+  if (!form) return;
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -166,56 +193,29 @@ function initRegisterForm() {
     const email = document.getElementById("regEmail").value.trim();
     const password = document.getElementById("regPassword").value;
 
-    // ----- Client-side validation -----
     if (!name || !email || !password) {
       showFormMessage("regMessage", "Please fill in all mandatory fields.", "error");
       return;
     }
 
-    if (!isValidEmail(email)) {
-      showFormMessage("regMessage", "Please enter a valid email address.", "error");
-      return;
-    }
-
-    if (password.length < 6) {
-      showFormMessage("regMessage", "Password must be at least 6 characters.", "error");
-      return;
-    }
-
     const submitBtn = document.getElementById("regSubmitBtn");
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      const spanEl = submitBtn.querySelector('span');
-      if (spanEl) spanEl.textContent = "Creating...";
-    }
+    if (submitBtn) submitBtn.disabled = true;
 
     try {
       await register(name, email, password);
-      showFormMessage(
-        "regMessage",
-        "Account created successfully! Redirecting to login...",
-        "success"
-      );
-      setTimeout(function () {
-        window.location.href = "login.html";
-      }, 1200);
+      showFormMessage("regMessage", "Account created! Redirecting to login...", "success");
+      setTimeout(() => { window.location.href = "login.html"; }, 1200);
     } catch (error) {
       showFormMessage("regMessage", error.message, "error");
     } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        const spanEl = submitBtn.querySelector('span');
-        if (spanEl) spanEl.textContent = "Create Account";
-      }
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }
 
-/* ---------- login.html form handling ---------- */
-
 function initLoginForm() {
   const form = document.getElementById("loginForm");
-  if (!form) return; // Not on this page.
+  if (!form) return;
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -229,66 +229,20 @@ function initLoginForm() {
     }
 
     const submitBtn = document.getElementById("loginSubmitBtn");
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      const spanEl = submitBtn.querySelector('span');
-      if (spanEl) spanEl.textContent = "Logging in...";
-    }
+    if (submitBtn) submitBtn.disabled = true;
 
     try {
       const data = await loginRequest(email, password);
-
-      // Expected shape: { token, user: { id, name, email } }
-      if (!data || !data.token) {
-        throw new Error("Login response did not include a token.");
-      }
-
       saveSession(data.token, data.user);
       showFormMessage("loginMessage", "Login successful! Redirecting...", "success");
-      setTimeout(function () {
-        window.location.href = "dashboard.html"; // Fixed redirect
-      }, 800);
+      setTimeout(() => { window.location.href = "dashboard.html"; }, 800);
     } catch (error) {
       showFormMessage("loginMessage", error.message, "error");
     } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        const spanEl = submitBtn.querySelector('span');
-        if (spanEl) spanEl.textContent = "Sign In";
-      }
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }
 
 document.addEventListener("DOMContentLoaded", initRegisterForm);
 document.addEventListener("DOMContentLoaded", initLoginForm);
-
-function populateDateSelect(dayId, monthId, yearId, minYear = 1930) {
-  const dayEl = document.getElementById(dayId);
-  const monthEl = document.getElementById(monthId);
-  const yearEl = document.getElementById(yearId);
-  if (!dayEl || !monthEl || !yearEl) return;
-  for (let d = 1; d <= 31; d++) dayEl.add(new Option(String(d).padStart(2, '0'), d));
-  ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-    .forEach((m, i) => monthEl.add(new Option(m, i + 1)));
-  const currentYear = new Date().getFullYear();
-  for (let y = currentYear; y >= minYear; y--) yearEl.add(new Option(y, y));
-}
-
-function wirePasswordToggles() {
-  document.querySelectorAll('.toggle-password').forEach(icon => {
-    icon.addEventListener('click', () => {
-      const input = document.getElementById(icon.dataset.target);
-      if (!input) return;
-      const showing = input.type === 'text';
-      input.type = showing ? 'password' : 'text';
-      icon.textContent = showing ? 'visibility' : 'visibility_off';
-    });
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  populateDateSelect('dobDay', 'dobMonth', 'dobYear');
-  populateDateSelect('annivDay', 'annivMonth', 'annivYear');
-  wirePasswordToggles();
-});
