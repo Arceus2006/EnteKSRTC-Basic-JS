@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EnteKSRTC Basic - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-brand">🚌 EnteKSRTC</div>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="buses.html">Search Buses</a>
+      <a href="bookings.html">My Bookings</a>
+      <a href="login.html" id="navAuthLink">Login / Register</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2 class="section-heading" id="dashboardGreeting">Welcome back</h2>
+
+    <div id="dashboardStatus" class="status-message hidden"></div>
+
+    <div class="dashboard-stats" id="dashboardStats">
+      <div class="stat-card">
+        <p class="stat-value" id="statTotalBookings">-</p>
+        <p class="stat-label">Total Bookings</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="statUpcomingCount">-</p>
+        <p class="stat-label">Upcoming Trips</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="statTotalSpent">-</p>
+        <p class="stat-label">Total Fare Paid</p>
+      </div>
+    </div>
+
+    <h3 class="section-heading">Your Next Trip</h3>
+    <div id="nextTripCard" class="booking-summary">
+      <p>Loading...</p>
+    </div>
+
+    <h3 class="section-heading">Quick Actions</h3>
+    <div class="dashboard-actions">
+      <a href="buses.html" class="btn btn-primary">Search Buses</a>
+      <a href="bookings.html" class="btn btn-secondary">View All Bookings</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">EnteKSRTC Basic &mdash; Educational project, no real payments involved.</footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

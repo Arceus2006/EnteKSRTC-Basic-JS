@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EnteKSRTC Basic - Bus Results</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-brand">🚌 EnteKSRTC</div>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="buses.html">Search Buses</a>
+      <a href="bookings.html">My Bookings</a>
+      <a href="login.html" id="navAuthLink">Login / Register</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2 class="section-heading">Available Buses</h2>
+    <p id="busSearchSummary" style="color: var(--text-muted);"></p>
+
+    <div id="busSearchStatus" class="status-message hidden"></div>
+
+    <div id="busResults"></div>
+  </div>
+
+  <footer class="site-footer">EnteKSRTC Basic &mdash; Educational project, no real payments involved.</footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/buses.js"></script>
+</body>
+</html>
