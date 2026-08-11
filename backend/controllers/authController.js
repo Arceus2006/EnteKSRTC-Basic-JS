@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password, age, gender, gstCompany, gstNumber, dob, anniv } = req.body;
 
-    if (!name || !email || !password || !age || !gender) {
+    if (!name || !email || !password || !age) {
       return res.status(400).json({ message: 'Please add all required fields' });
     }
 

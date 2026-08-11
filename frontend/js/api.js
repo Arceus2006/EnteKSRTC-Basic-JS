@@ -85,17 +85,8 @@ async function register(userData) {
       throw new Error(data.message || 'Registration failed');
     }
   } catch (err) {
-    console.error("Backend API error, falling back to mock:", err.message);
-    // Fallback to mock
-    await delay(500);
-    const users = getDB(USERS_KEY, []);
-    if (users.find(u => u.email === userData.email)) {
-      throw new Error("User with this email already exists.");
-    }
-    const newUser = { id: generateId(), ...userData };
-    users.push(newUser);
-    setDB(USERS_KEY, users);
-    return { message: "User registered successfully", user: { id: newUser.id, name: userData.name, email: userData.email }, token: `mock_jwt_${newUser.id}` };
+    console.error("Backend API error during registration:", err.message);
+    throw err;
   }
 }
 
@@ -116,22 +107,8 @@ async function loginRequest(email, password) {
       throw new Error(data.message || 'Login failed');
     }
   } catch (err) {
-    console.error("Backend API error, falling back to mock:", err.message);
-    // Fallback to mock
-    await delay(500);
-    const users = getDB(USERS_KEY, []);
-    let user = users.find(u => u.email === email && u.password === password);
-    
-    if (!user) {
-      user = { id: generateId(), name: email.split('@')[0], email, password };
-      users.push(user);
-      setDB(USERS_KEY, users);
-    }
-    
-    return {
-      token: `mock_jwt_${user.id}`,
-      user: { id: user.id, name: user.name, email: user.email }
-    };
+    console.error("Backend API error during login:", err.message);
+    throw err;
   }
 }
 
