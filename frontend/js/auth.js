@@ -58,7 +58,7 @@ function applyTheme(isDark) {
     localStorage.setItem(THEME_KEY, "light");
   }
 
-  const switches = document.querySelectorAll("#themeToggleSwitch, .md-switch");
+  const switches = document.querySelectorAll("#themeToggleSwitch");
   switches.forEach((sw) => {
     sw.checked = isDark;
   });
@@ -74,7 +74,7 @@ function initTheme() {
 
 // Global event delegation for theme toggle switches
 document.addEventListener("change", (e) => {
-  if (e.target && (e.target.id === "themeToggleSwitch" || e.target.classList.contains("md-switch"))) {
+  if (e.target && e.target.id === "themeToggleSwitch") {
     applyTheme(e.target.checked);
   }
 });
