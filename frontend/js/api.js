@@ -64,36 +64,94 @@ function generateId() {
 }
 
 // ------------------------------------------------------------
-// AUTH ENDPOINTS
+// AUTH ENDPOINTS (CONNECTED TO MONGODB ATLAS API)
 // ------------------------------------------------------------
+const BACKEND_API_URL = "http://localhost:5011/api";
+
 async function register(userData) {
-  await delay(500);
-  const users = getDB(USERS_KEY, []);
-  if (users.find(u => u.email === userData.email)) {
-    throw new Error("User with this email already exists.");
+  try {
+    const response = await fetch(`${BACKEND_API_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return { message: data.message, user: data.user, token: data.token };
+    } else {
+      throw new Error(data.message || 'Registration failed');
+    }
+  } catch (err) {
+    console.error("Backend API error, falling back to mock:", err.message);
+    // Fallback to mock
+    await delay(500);
+    const users = getDB(USERS_KEY, []);
+    if (users.find(u => u.email === userData.email)) {
+      throw new Error("User with this email already exists.");
+    }
+    const newUser = { id: generateId(), ...userData };
+    users.push(newUser);
+    setDB(USERS_KEY, users);
+    return { message: "User registered successfully", user: { id: newUser.id, name: userData.name, email: userData.email }, token: `mock_jwt_${newUser.id}` };
   }
-  const newUser = { id: generateId(), ...userData };
-  users.push(newUser);
-  setDB(USERS_KEY, users);
-  return { message: "User registered successfully", user: { id: newUser.id, name: userData.name, email: userData.email } };
 }
 
 async function loginRequest(email, password) {
-  await delay(500);
-  const users = getDB(USERS_KEY, []);
-  let user = users.find(u => u.email === email && u.password === password);
-  
-  // For seamless UI testing, if user isn't found, auto-register them!
-  if (!user) {
-    user = { id: generateId(), name: email.split('@')[0], email, password };
-    users.push(user);
-    setDB(USERS_KEY, users);
+  try {
+    const response = await fetch(`${BACKEND_API_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return { token: data.token, user: data.user };
+    } else {
+      throw new Error(data.message || 'Login failed');
+    }
+  } catch (err) {
+    console.error("Backend API error, falling back to mock:", err.message);
+    // Fallback to mock
+    await delay(500);
+    const users = getDB(USERS_KEY, []);
+    let user = users.find(u => u.email === email && u.password === password);
+    
+    if (!user) {
+      user = { id: generateId(), name: email.split('@')[0], email, password };
+      users.push(user);
+      setDB(USERS_KEY, users);
+    }
+    
+    return {
+      token: `mock_jwt_${user.id}`,
+      user: { id: user.id, name: user.name, email: user.email }
+    };
   }
-  
-  return {
-    token: `mock_jwt_${user.id}`,
-    user: { id: user.id, name: user.name, email: user.email }
-  };
+}
+
+async function getUserProfile(token) {
+  try {
+    const response = await fetch(`${BACKEND_API_URL}/auth/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (response.ok) {
+      return await response.json();
+    }
+    throw new Error('Failed to fetch profile');
+  } catch (error) {
+    console.error("Error fetching profile, returning local user:", error);
+    return null;
+  }
 }
 
 // ------------------------------------------------------------

@@ -75,9 +75,36 @@ async function loadDashboard() {
   if (statusEl) statusEl.className = "hidden";
 
   try {
+    const token = getToken();
+    if (token) {
+      const profile = await getUserProfile(token);
+      if (profile) {
+        // Re-render greeting with real data
+        const name = profile.name || "Traveler";
+        const greetingEl = document.getElementById("dashboardGreeting");
+        if (greetingEl) greetingEl.textContent = `Welcome, ${name}`;
+
+        const welcomeLarge = document.getElementById("dashboardWelcomeLarge");
+        if (welcomeLarge) {
+          welcomeLarge.innerHTML = `Welcome back,<br><span>${name}</span>`;
+        }
+
+        const statLoyaltyEl = document.getElementById("statLoyaltyPoints");
+        if (statLoyaltyEl) statLoyaltyEl.textContent = (profile.loyaltyPoints || 0).toLocaleString();
+        
+        // Save back to local storage
+        saveSession(token, profile);
+      }
+    }
+
     const bookings = await getMyBookings();
     const list = Array.isArray(bookings) ? bookings : [];
-    const upcoming = renderDashboardStats(list);
+    
+    const totalBookings = list.length;
+    const statTotalEl = document.getElementById("statTotalBookings");
+    if (statTotalEl) statTotalEl.textContent = totalBookings;
+
+    const upcoming = list.filter(b => isFutureDate(b.journeyDate));
     renderNextTrip(upcoming);
   } catch (error) {
     if (statusEl) {
@@ -89,6 +116,6 @@ async function loadDashboard() {
 
 document.addEventListener("DOMContentLoaded", function () {
   requireLogin();
-  renderGreeting();
-  loadDashboard();
+  renderGreeting(); // Shows cached name instantly
+  loadDashboard(); // Fetches real data and updates UI
 });
