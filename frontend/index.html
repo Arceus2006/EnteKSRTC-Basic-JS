@@ -401,6 +401,34 @@
         [from.value, to.value] = [to.value, from.value];
       });
     }
+
+    // Top Routes 'Book' Button Auto-fill
+    const bookButtons = document.querySelectorAll('.route-card .btn-book');
+    bookButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.route-card');
+        if (card) {
+          const dests = card.querySelectorAll('.route-destinations h3');
+          if (dests.length === 2) {
+            document.getElementById('searchFrom').value = dests[0].textContent.trim();
+            document.getElementById('searchTo').value = dests[1].textContent.trim();
+            
+            // Scroll to search widget smoothly
+            const widget = document.querySelector('.booking-widget-wrapper');
+            if (widget) {
+              widget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              
+              // Brief highlight effect
+              widget.style.transition = 'transform 0.3s ease';
+              widget.style.transform = 'scale(1.02)';
+              setTimeout(() => {
+                widget.style.transform = 'scale(1)';
+              }, 400);
+            }
+          }
+        }
+      });
+    });
   </script>
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
