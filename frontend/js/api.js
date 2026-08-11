@@ -262,11 +262,31 @@ function generateSeatLayoutData() {
 // ------------------------------------------------------------
 // BOOKING ENDPOINTS
 // ------------------------------------------------------------
+function getUserIdFromToken(token) {
+  if (!token) return null;
+  if (token.startsWith("mock_jwt_")) {
+    return token.replace("mock_jwt_", "");
+  }
+  try {
+    // Decode real JWT
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+    const payload = JSON.parse(jsonPayload);
+    return payload.id;
+  } catch (e) {
+    console.error("Failed to decode token", e);
+    return null;
+  }
+}
+
 async function createBooking(bookingData) {
   await delay(500);
   const token = localStorage.getItem("entekstc_token");
-  if (!token) throw new Error("Unauthorized");
-  const userId = token.replace("mock_jwt_", "");
+  const userId = getUserIdFromToken(token);
+  if (!userId) throw new Error("Unauthorized");
 
   const bus = await getBusById(bookingData.busId);
   if (bus.bookedSeats.includes(bookingData.seat)) {
@@ -295,8 +315,8 @@ async function createBooking(bookingData) {
 async function getMyBookings() {
   await delay(500);
   const token = localStorage.getItem("entekstc_token");
-  if (!token) throw new Error("Unauthorized");
-  const userId = token.replace("mock_jwt_", "");
+  const userId = getUserIdFromToken(token);
+  if (!userId) throw new Error("Unauthorized");
   
   const bookings = getDB(BOOKINGS_KEY, []);
   return bookings.filter(bk => bk.userId === userId);
