@@ -264,9 +264,42 @@ function updatePasswordStrengthUI(inputEl) {
 
 /* ---------- Form Event Listeners ---------- */
 
+function populateDateDropdowns() {
+  const currentYear = new Date().getFullYear();
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const populate = (dayId, monthId, yearId, startYear, endYear) => {
+    const dayEl = document.getElementById(dayId);
+    const monthEl = document.getElementById(monthId);
+    const yearEl = document.getElementById(yearId);
+
+    if (dayEl && dayEl.options.length <= 1) {
+      for (let i = 1; i <= 31; i++) {
+        dayEl.add(new Option(i, i < 10 ? '0' + i : i));
+      }
+    }
+    if (monthEl && monthEl.options.length <= 1) {
+      months.forEach((m, i) => {
+        const val = i + 1;
+        monthEl.add(new Option(m, val < 10 ? '0' + val : val));
+      });
+    }
+    if (yearEl && yearEl.options.length <= 1) {
+      for (let i = endYear; i >= startYear; i--) {
+        yearEl.add(new Option(i, i));
+      }
+    }
+  };
+
+  populate("dobDay", "dobMonth", "dobYear", currentYear - 120, currentYear);
+  populate("annivDay", "annivMonth", "annivYear", currentYear - 120, currentYear);
+}
+
 function initRegisterForm() {
   const form = document.getElementById("registerForm");
   if (!form) return;
+
+  populateDateDropdowns();
 
   const regName = document.getElementById("regName");
   const regAge = document.getElementById("regAge");
