@@ -164,7 +164,7 @@ if (document.readyState === 'loading') {
   updateNavForAuth();
 }
 
-/* ---------- Generic Toast Message Helper ---------- */
+/* ---------- Generic Toast Message & Field Error Helpers ---------- */
 
 function showFormMessage(elementId, message, type) {
   const toast = document.getElementById(elementId);
@@ -180,22 +180,163 @@ function showFormMessage(elementId, message, type) {
   }, 3500);
 }
 
+function showFieldError(inputEl, message) {
+  if (!inputEl) return;
+  const inputGroup = inputEl.closest(".input-group") || inputEl.parentElement;
+  if (!inputGroup) return;
+
+  inputGroup.classList.add("is-invalid");
+  inputGroup.classList.remove("is-valid");
+
+  let errorEl = inputGroup.querySelector(".field-error-msg");
+  if (!errorEl) {
+    errorEl = document.createElement("div");
+    errorEl.className = "field-error-msg";
+    inputGroup.appendChild(errorEl);
+  }
+  errorEl.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px;">error</span> ${message}`;
+  errorEl.classList.add("visible");
+}
+
+function clearFieldError(inputEl) {
+  if (!inputEl) return;
+  const inputGroup = inputEl.closest(".input-group") || inputEl.parentElement;
+  if (!inputGroup) return;
+
+  inputGroup.classList.remove("is-invalid");
+  inputGroup.classList.add("is-valid");
+
+  const errorEl = inputGroup.querySelector(".field-error-msg");
+  if (errorEl) {
+    errorEl.classList.remove("visible");
+  }
+}
+
+/* ---------- Regex Validators ---------- */
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NAME_REGEX = /^[a-zA-Z\s'.]{2,50}$/;
+const GSTIN_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/i;
+const PWD_COMPLEXITY_REGEX = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+
+/* ---------- Password Strength Calculator ---------- */
+function checkPasswordStrength(password) {
+  if (!password) return { score: 0, text: "" };
+  let score = 0;
+  if (password.length >= 6) score++;
+  if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score++;
+  if (/\d/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  if (score <= 1) return { score: 1, text: "Weak", class: "weak" };
+  if (score === 2 || score === 3) return { score: 2, text: "Medium", class: "medium" };
+  return { score: 3, text: "Strong", class: "strong" };
+}
+
+function updatePasswordStrengthUI(inputEl) {
+  const pwd = inputEl.value;
+  const inputGroup = inputEl.closest(".input-group");
+  if (!inputGroup) return;
+
+  let strengthContainer = inputGroup.querySelector(".password-strength-container");
+  if (!strengthContainer) {
+    strengthContainer = document.createElement("div");
+    strengthContainer.className = "password-strength-container";
+    strengthContainer.innerHTML = `
+      <div class="password-strength-bar-bg"><div class="password-strength-bar-fill"></div></div>
+      <span class="password-strength-text"></span>
+    `;
+    inputGroup.appendChild(strengthContainer);
+  }
+
+  const fillEl = strengthContainer.querySelector(".password-strength-bar-fill");
+  const textEl = strengthContainer.querySelector(".password-strength-text");
+
+  if (!pwd) {
+    fillEl.className = "password-strength-bar-fill";
+    textEl.textContent = "";
+    return;
+  }
+
+  const strength = checkPasswordStrength(pwd);
+  fillEl.className = `password-strength-bar-fill ${strength.class}`;
+  textEl.textContent = `Password Strength: ${strength.text}`;
+}
+
 /* ---------- Form Event Listeners ---------- */
 
 function initRegisterForm() {
   const form = document.getElementById("registerForm");
   if (!form) return;
 
+  const regName = document.getElementById("regName");
+  const regAge = document.getElementById("regAge");
+  const regEmail = document.getElementById("regEmail");
+  const regPassword = document.getElementById("regPassword");
+  const regGstNumber = document.getElementById("regGstNumber");
+
+  // Real-time password strength listener
+  if (regPassword) {
+    regPassword.addEventListener("input", function () {
+      updatePasswordStrengthUI(regPassword);
+      if (PWD_COMPLEXITY_REGEX.test(regPassword.value)) {
+        clearFieldError(regPassword);
+      }
+    });
+  }
+
+  // Real-time blur listeners
+  if (regName) {
+    regName.addEventListener("blur", () => {
+      if (!NAME_REGEX.test(regName.value.trim())) {
+        showFieldError(regName, "Name must contain at least 2 letters and no special characters.");
+      } else {
+        clearFieldError(regName);
+      }
+    });
+  }
+
+  if (regAge) {
+    regAge.addEventListener("blur", () => {
+      const val = parseInt(regAge.value, 10);
+      if (isNaN(val) || val < 1 || val > 120) {
+        showFieldError(regAge, "Please enter a valid age between 1 and 120.");
+      } else {
+        clearFieldError(regAge);
+      }
+    });
+  }
+
+  if (regEmail) {
+    regEmail.addEventListener("blur", () => {
+      if (!EMAIL_REGEX.test(regEmail.value.trim())) {
+        showFieldError(regEmail, "Please enter a valid email address (e.g., name@domain.com).");
+      } else {
+        clearFieldError(regEmail);
+      }
+    });
+  }
+
+  if (regGstNumber) {
+    regGstNumber.addEventListener("blur", () => {
+      const val = regGstNumber.value.trim();
+      if (val && !GSTIN_REGEX.test(val)) {
+        showFieldError(regGstNumber, "Invalid GSTIN format (e.g. 32AAAAA0000A1Z5).");
+      } else if (val) {
+        clearFieldError(regGstNumber);
+      }
+    });
+  }
+
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const name = document.getElementById("regName").value.trim();
-    const age = document.getElementById("regAge").value;
-    const email = document.getElementById("regEmail").value.trim();
-    const password = document.getElementById("regPassword").value;
-    const gender = document.getElementById("regGender").value;
+    const name = regName ? regName.value.trim() : "";
+    const age = regAge ? regAge.value.trim() : "";
+    const email = regEmail ? regEmail.value.trim() : "";
+    const password = regPassword ? regPassword.value : "";
+    const gender = document.getElementById("regGender") ? document.getElementById("regGender").value : "";
     const gstCompany = document.getElementById("regGstCompany") ? document.getElementById("regGstCompany").value.trim() : "";
-    const gstNumber = document.getElementById("regGstNumber") ? document.getElementById("regGstNumber").value.trim() : "";
+    const gstNumber = regGstNumber ? regGstNumber.value.trim() : "";
     const dobDay = document.getElementById("dobDay") ? document.getElementById("dobDay").value : "";
     const dobMonth = document.getElementById("dobMonth") ? document.getElementById("dobMonth").value : "";
     const dobYear = document.getElementById("dobYear") ? document.getElementById("dobYear").value : "";
@@ -203,9 +344,38 @@ function initRegisterForm() {
     const annivMonth = document.getElementById("annivMonth") ? document.getElementById("annivMonth").value : "";
     const annivYear = document.getElementById("annivYear") ? document.getElementById("annivYear").value : "";
 
-    // ----- Client-side validation -----
-    if (!name || !email || !password || !age || !gender) {
-      showFormMessage("regMessage", "Please fill in all mandatory fields.", "error");
+    let hasError = false;
+
+    if (!NAME_REGEX.test(name)) {
+      showFieldError(regName, "Name must contain at least 2 letters.");
+      hasError = true;
+    }
+
+    const ageNum = parseInt(age, 10);
+    if (isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+      showFieldError(regAge, "Age must be between 1 and 120.");
+      hasError = true;
+    }
+
+    if (!EMAIL_REGEX.test(email)) {
+      showFieldError(regEmail, "Please enter a valid email address.");
+      hasError = true;
+    }
+
+    if (!PWD_COMPLEXITY_REGEX.test(password)) {
+      showFieldError(regPassword, "Password must be at least 6 characters and contain letters & numbers.");
+      hasError = true;
+    }
+
+    if (gstNumber && !GSTIN_REGEX.test(gstNumber)) {
+      showFieldError(regGstNumber, "Invalid GSTIN format (e.g. 32AAAAA0000A1Z5).");
+      hasError = true;
+    }
+
+    if (hasError) {
+      form.classList.add("shake-invalid");
+      setTimeout(() => form.classList.remove("shake-invalid"), 500);
+      showFormMessage("regMessage", "Please correct the highlighted errors before submitting.", "error");
       return;
     }
 
@@ -214,7 +384,7 @@ function initRegisterForm() {
 
     try {
       const userData = {
-        name, age, email, password, gender,
+        name, age: ageNum, email, password, gender,
         gstCompany, gstNumber,
         dob: dobDay && dobMonth && dobYear ? `${dobYear}-${dobMonth}-${dobDay}` : null,
         anniv: annivDay && annivMonth && annivYear ? `${annivYear}-${annivMonth}-${annivDay}` : null
@@ -240,14 +410,51 @@ function initLoginForm() {
   const form = document.getElementById("loginForm");
   if (!form) return;
 
+  const loginEmail = document.getElementById("loginEmail");
+  const loginPassword = document.getElementById("loginPassword");
+
+  if (loginEmail) {
+    loginEmail.addEventListener("blur", () => {
+      if (!EMAIL_REGEX.test(loginEmail.value.trim())) {
+        showFieldError(loginEmail, "Please enter a valid email address.");
+      } else {
+        clearFieldError(loginEmail);
+      }
+    });
+  }
+
+  if (loginPassword) {
+    loginPassword.addEventListener("blur", () => {
+      if (loginPassword.value.length < 6) {
+        showFieldError(loginPassword, "Password must be at least 6 characters long.");
+      } else {
+        clearFieldError(loginPassword);
+      }
+    });
+  }
+
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
+    const email = loginEmail ? loginEmail.value.trim() : "";
+    const password = loginPassword ? loginPassword.value : "";
 
-    if (!email || !password) {
-      showFormMessage("loginMessage", "Please enter both email and password.", "error");
+    let hasError = false;
+
+    if (!EMAIL_REGEX.test(email)) {
+      showFieldError(loginEmail, "Please enter a valid email address.");
+      hasError = true;
+    }
+
+    if (!password || password.length < 6) {
+      showFieldError(loginPassword, "Password must be at least 6 characters long.");
+      hasError = true;
+    }
+
+    if (hasError) {
+      form.classList.add("shake-invalid");
+      setTimeout(() => form.classList.remove("shake-invalid"), 500);
+      showFormMessage("loginMessage", "Please fill in valid credentials.", "error");
       return;
     }
 

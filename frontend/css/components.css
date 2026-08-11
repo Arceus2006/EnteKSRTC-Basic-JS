@@ -136,6 +136,91 @@
   background: var(--primary-hover);
 }
 
+/* ---------- Form Validation & Field Errors ---------- */
+.field-error-msg {
+  display: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--md-sys-color-tertiary, #d1483c);
+  margin-top: 6px;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-error-msg.visible {
+  display: flex;
+}
+
+.input-field-wrapper.is-invalid,
+.input-group.is-invalid .input-field-wrapper,
+.input-group.is-invalid input,
+.input-group.is-invalid select,
+input:user-invalid,
+select:user-invalid {
+  border-color: var(--md-sys-color-tertiary, #d1483c) !important;
+  box-shadow: 0 0 0 3px rgba(209, 72, 60, 0.15) !important;
+}
+
+.input-field-wrapper.is-valid,
+.input-group.is-valid .input-field-wrapper {
+  border-color: var(--md-sys-color-primary, #0b6e4f) !important;
+}
+
+/* Shake Animation for Invalid Submit */
+@keyframes formShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.shake-invalid {
+  animation: formShake 0.4s ease-in-out;
+}
+
+/* Password Strength Indicator */
+.password-strength-container {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.password-strength-bar-bg {
+  height: 4px;
+  width: 100%;
+  background: var(--md-sys-color-outline-variant, #e0e0e0);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength-bar-fill.weak {
+  width: 33%;
+  background-color: #d1483c;
+}
+
+.password-strength-bar-fill.medium {
+  width: 66%;
+  background-color: #e5c158;
+}
+
+.password-strength-bar-fill.strong {
+  width: 100%;
+  background-color: #3dba84;
+}
+
+.password-strength-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted, #7c8798);
+}
+
 /* ---------- Status Messages & Toasts ---------- */
 .status-message {
   padding: 12px 14px;

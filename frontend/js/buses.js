@@ -4,6 +4,14 @@
 
 function initSearchForm() {
   const form = document.getElementById("searchForm");
+  const dateInput = document.getElementById("searchDate");
+
+  // Dynamically set minimum travel date to today (YYYY-MM-DD)
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min", today);
+  }
+
   if (!form) return;
 
   form.addEventListener("submit", function (event) {
@@ -11,16 +19,28 @@ function initSearchForm() {
 
     const from = document.getElementById("searchFrom").value.trim();
     const to = document.getElementById("searchTo").value.trim();
-    const date = document.getElementById("searchDate").value;
+    const date = dateInput ? dateInput.value : "";
 
     if (!from || !to) {
-      alert("Please fill in From and To locations.");
+      showFormMessage("searchMessage", "Please fill in both From and To locations.", "error");
       return;
     }
 
     if (from.toLowerCase() === to.toLowerCase()) {
-      alert("From and To locations cannot be identical.");
+      showFormMessage("searchMessage", "Source and Destination cities cannot be identical.", "error");
+      form.classList.add("shake-invalid");
+      setTimeout(() => form.classList.remove("shake-invalid"), 500);
       return;
+    }
+
+    if (date) {
+      const selectedDate = new Date(date);
+      const todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0);
+      if (selectedDate < todayDate) {
+        showFormMessage("searchMessage", "Journey date cannot be in the past.", "error");
+        return;
+      }
     }
 
     const params = new URLSearchParams({ from, to });

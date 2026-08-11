@@ -119,27 +119,72 @@ async function loadBusForBooking() {
 
 function initBookingForm() {
   const form = document.getElementById("bookingForm");
+  const dateInput = document.getElementById("bookingJourneyDate");
+  const nameInput = document.getElementById("passengerName");
+
+  // Dynamically set minimum travel date to today (YYYY-MM-DD)
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min", today);
+  }
+
+  if (nameInput) {
+    nameInput.addEventListener("blur", () => {
+      const val = nameInput.value.trim();
+      if (!val || !/^[a-zA-Z\s'.]{2,50}$/.test(val)) {
+        showFieldError(nameInput, "Please enter a valid passenger full name (at least 2 letters).");
+      } else {
+        clearFieldError(nameInput);
+      }
+    });
+  }
+
   if (!form) return; // Not on this page.
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
+    let hasError = false;
+
     if (!selectedSeat) {
-      showFormMessage("bookingMessage", "Please select a seat first.", "error");
-      return;
+      showFormMessage("bookingMessage", "Please select an available seat from the map above before proceeding.", "error");
+      form.classList.add("shake-invalid");
+      setTimeout(() => form.classList.remove("shake-invalid"), 500);
+      hasError = true;
     }
 
-    const passengerName = document.getElementById("passengerName").value.trim();
-    const journeyDate = document.getElementById("bookingJourneyDate").value;
+    const passengerName = nameInput ? nameInput.value.trim() : "";
+    const journeyDate = dateInput ? dateInput.value : "";
 
-    if (!passengerName || !journeyDate) {
-      showFormMessage("bookingMessage", "Please fill in passenger name and journey date.", "error");
+    if (!passengerName || !/^[a-zA-Z\s'.]{2,50}$/.test(passengerName)) {
+      showFieldError(nameInput, "Please enter a valid passenger full name.");
+      hasError = true;
+    }
+
+    if (!journeyDate) {
+      showFieldError(dateInput, "Please select a journey date.");
+      hasError = true;
+    } else {
+      const selectedDate = new Date(journeyDate);
+      const todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0);
+      if (selectedDate < todayDate) {
+        showFieldError(dateInput, "Journey date cannot be in the past.");
+        hasError = true;
+      }
+    }
+
+    if (hasError) {
+      form.classList.add("shake-invalid");
+      setTimeout(() => form.classList.remove("shake-invalid"), 500);
       return;
     }
 
     const confirmBtn = document.getElementById("confirmBookingBtn");
-    confirmBtn.disabled = true;
-    confirmBtn.textContent = "Booking...";
+    if (confirmBtn) {
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = `<span>Booking...</span> <span class="material-symbols-outlined">sync</span>`;
+    }
 
     try {
       const bookingData = {
@@ -161,8 +206,10 @@ function initBookingForm() {
       }, 1200);
     } catch (error) {
       showFormMessage("bookingMessage", error.message, "error");
-      confirmBtn.disabled = false;
-      confirmBtn.textContent = "Confirm Booking";
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = `<span>Confirm Booking</span> <span class="material-symbols-outlined">check_circle</span>`;
+      }
     }
   });
 }

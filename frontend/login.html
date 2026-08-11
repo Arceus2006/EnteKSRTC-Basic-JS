@@ -139,7 +139,7 @@
             <label for="loginEmail">Email Address</label>
             <div class="input-field-wrapper">
               <span class="material-symbols-outlined input-icon">mail</span>
-              <input type="email" id="loginEmail" class="input-field" placeholder="you@example.com" required />
+              <input type="email" id="loginEmail" class="input-field" placeholder="you@example.com" required autocomplete="email" />
             </div>
           </div>
 
@@ -147,7 +147,7 @@
             <label for="loginPassword">Password</label>
             <div class="input-field-wrapper">
               <span class="material-symbols-outlined input-icon">lock</span>
-              <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required />
+              <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" minlength="6" required autocomplete="current-password" />
               <span class="material-symbols-outlined toggle-password" style="color:#7C8798;cursor:pointer;" data-target="loginPassword">visibility</span>
             </div>
           </div>
