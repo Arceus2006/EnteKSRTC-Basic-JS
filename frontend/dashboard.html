@@ -142,51 +142,16 @@
         </section>
 
         <!-- Widgets Grid -->
-        <div class="dashboard-widgets">
+        <div class="dashboard-widgets" style="grid-template-columns: 1fr; max-width: 400px;">
           
-          <!-- Upcoming Journey -->
-          <div class="widget-section" style="grid-column: span 1;">
-            <div class="section-header">
-              <h2>Upcoming Journey</h2>
-              <a href="#" class="link-view-all">View Ticket</a>
-            </div>
-            
-            <div id="nextTripCard" class="widget-ticket">
-              <!-- JS overrides this, but we leave structure for fallback -->
-              <div class="ticket-left">
-                <div class="ticket-icon">
-                  <span class="material-symbols-outlined">directions_bus</span>
-                </div>
-                <div class="ticket-details">
-                  <h3>K-Swift Gaja</h3>
-                  <p>Volvo 9600 Multi-Axle Sleeper</p>
-                </div>
-              </div>
-              <div class="ticket-seat">
-                <span>SEAT</span>
-                <strong>L4</strong>
-              </div>
-            </div>
-          </div>
-
           <!-- Stats -->
           <div class="widget-section">
             <div class="section-header" style="opacity:0;"><h2>.</h2></div> <!-- spacer -->
             <div class="widget-stat">
               <span class="material-symbols-outlined">star</span>
-              <h3 id="statLoyaltyPoints">1,200</h3>
+              <h3 id="statLoyaltyPoints">0</h3>
               <p>LOYALTY POINTS</p>
               <a href="#" class="widget-cta-overlay">Redeem</a>
-            </div>
-          </div>
-
-          <div class="widget-section">
-            <div class="section-header" style="opacity:0;"><h2>.</h2></div> <!-- spacer -->
-            <div class="widget-stat">
-              <span class="material-symbols-outlined">directions_bus</span>
-              <h3 id="statTotalBookings">24</h3>
-              <p>TOTAL TRIPS</p>
-              <a href="bookings.html" class="widget-cta-overlay">View All</a>
             </div>
           </div>
 
