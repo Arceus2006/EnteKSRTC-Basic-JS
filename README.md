@@ -24,11 +24,9 @@ Welcome to **Ente KSRTC Premium**, a modern, high-performance, responsive redesi
   - Boarding pass pass-card design for Login and Registration with authentic ticket punch notch cutouts and crisp vector Google "G" SVG branding.
 - **Interactive Seat Selection & Booking**:
   - Real-time seat selection map, dynamic fare calculation, and ticket checkout flow.
-- **Comprehensive Real-Time Form Validation**:
-  - Live regex field validation, custom email & password complexity checks (`auth.js`), and live Password Strength Bar (Weak/Medium/Strong).
-  - GSTIN 15-character format validation for company details.
-  - Search widget validation preventing identical source/destination city selections and past date booking (`min="YYYY-MM-DD"`).
-  - Visual error feedback (`.field-error-msg`), `:user-invalid` / `:user-valid` border highlights, and form shake animations on invalid submission attempts.
+- **MongoDB Atlas Integration**:
+  - Live backend REST API (`http://localhost:5011/api/buses`) connected directly to MongoDB Atlas `buses` collection.
+  - Dynamic route searching, bus filtering (AC Sleeper, Non-AC Sleeper, Semi-Sleeper, Seater), price/departure sorting, and auto-seeding default KSRTC routes.
 
 ---
 

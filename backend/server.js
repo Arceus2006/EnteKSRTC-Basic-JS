@@ -14,6 +14,8 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/buses", require("./routes/busRoutes"));
+
 app.get("/", (req, res) => {
     res.json({
         message: "EnteKSRTC Basic JS API is running"

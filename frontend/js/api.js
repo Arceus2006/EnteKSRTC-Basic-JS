@@ -97,10 +97,44 @@ async function loginRequest(email, password) {
 }
 
 // ------------------------------------------------------------
-// BUS ENDPOINTS
 // ------------------------------------------------------------
+// BUS ENDPOINTS (CONNECTED TO MONGODB ATLAS API)
+// ------------------------------------------------------------
+const BACKEND_API_URL = "http://localhost:5011/api";
+
 async function getBuses(from, to, date, selectedBusTypes = [], selectedDepTimes = [], sortBy = 'Relevance') {
-  await delay(500);
+  try {
+    const params = new URLSearchParams();
+    if (from) params.append("from", from);
+    if (to) params.append("to", to);
+    if (selectedBusTypes.length > 0) params.append("busTypes", selectedBusTypes.join(","));
+    if (sortBy) params.append("sortBy", sortBy);
+
+    const response = await fetch(`${BACKEND_API_URL}/buses?${params.toString()}`);
+    if (response.ok) {
+      let results = await response.json();
+
+      // Apply client-side departure time filter if selected
+      if (selectedDepTimes.length > 0) {
+        results = results.filter(bus => {
+          if (!bus.departureTime) return true;
+          const hour = parseInt(bus.departureTime.split(':')[0], 10);
+          if (selectedDepTimes.includes('Before 6 AM') && hour < 6) return true;
+          if (selectedDepTimes.includes('6 AM to 12 PM') && hour >= 6 && hour < 12) return true;
+          if (selectedDepTimes.includes('12 PM to 6 PM') && hour >= 12 && hour < 18) return true;
+          if (selectedDepTimes.includes('After 6 PM') && hour >= 18) return true;
+          return false;
+        });
+      }
+
+      return results;
+    }
+  } catch (err) {
+    console.warn("Backend API offline or unreachable, falling back to local dataset:", err.message);
+  }
+
+  // Fallback to seed dataset
+  await delay(300);
   let results = [...MOCK_BUSES];
   
   if (from) {
@@ -120,38 +154,27 @@ async function getBuses(from, to, date, selectedBusTypes = [], selectedDepTimes 
     });
   }
 
-  if (selectedDepTimes.length > 0) {
-    results = results.filter(bus => {
-      const hour = parseInt(bus.departureTime.split(':')[0], 10);
-      if (selectedDepTimes.includes('Before 6 AM') && hour < 6) return true;
-      if (selectedDepTimes.includes('6 AM to 12 PM') && hour >= 6 && hour < 12) return true;
-      if (selectedDepTimes.includes('12 PM to 6 PM') && hour >= 12 && hour < 18) return true;
-      if (selectedDepTimes.includes('After 6 PM') && hour >= 18) return true;
-      return false;
-    });
-  }
-
-  if (sortBy === 'Price: Low to High') {
-    results.sort((a, b) => a.fare - b.fare);
-  } else if (sortBy === 'Departure: Earliest First') {
-    results.sort((a, b) => a.departureTime.localeCompare(b.departureTime));
-  } else if (sortBy === 'Rating: High to Low') {
-    results.sort((a, b) => b.rating - a.rating);
-  }
-
   return results;
 }
 
 async function getBusById(busId) {
-  await delay(300);
-  const bus = MOCK_BUSES.find(b => b._id === busId);
-  if (!bus) throw new Error("Bus not found");
-  
+  try {
+    const response = await fetch(`${BACKEND_API_URL}/buses/${busId}`);
+    if (response.ok) {
+      const bus = await response.json();
+      return bus;
+    }
+  } catch (err) {
+    console.warn("Backend API offline, falling back to local bus by ID:", err.message);
+  }
+
+  await delay(200);
+  const bus = MOCK_BUSES.find(b => b._id === busId) || MOCK_BUSES[0];
   const bookings = getDB(BOOKINGS_KEY, []);
   const activeBookings = bookings.filter(bk => bk.busId === busId && bk.status !== "Cancelled");
   
   const mergedBus = { ...bus };
-  mergedBus.bookedSeats = [...new Set([...bus.bookedSeats, ...activeBookings.map(bk => bk.seat)])];
+  mergedBus.bookedSeats = [...new Set([...(bus.bookedSeats || []), ...activeBookings.map(bk => bk.seat)])];
   return mergedBus;
 }
 
