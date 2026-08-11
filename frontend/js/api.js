@@ -158,8 +158,6 @@ async function getUserProfile(token) {
 // ------------------------------------------------------------
 // BUS ENDPOINTS (CONNECTED TO MONGODB ATLAS API)
 // ------------------------------------------------------------
-const BACKEND_API_URL = "http://localhost:5011/api";
-
 async function getBuses(from, to, date, selectedBusTypes = [], selectedDepTimes = [], sortBy = 'Relevance') {
   try {
     const params = new URLSearchParams();
